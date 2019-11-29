@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      Buildings
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngFor="let i of arrayData" >
+        <ion-card (click)="openFloors(i.Building)">
+          <ion-card-header>
+            {{i.Building}}
+          </ion-card-header>
+          <ion-card-content>
+            Consumption: {{i.total.toFixed(2)}}
+          </ion-card-content>
+          <!-- Tap {{i.tap_id}} -->
+        </ion-card>
+     </div>
+</ion-content>

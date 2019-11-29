@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Floor {{this.getFloor}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-list *ngFor="let i of arrayData">
+  <ion-item><ion-col>Tap {{i.tap_id}}</ion-col><ion-col>{{i.total}}</ion-col></ion-item>
+</ion-list>
+</ion-content>
