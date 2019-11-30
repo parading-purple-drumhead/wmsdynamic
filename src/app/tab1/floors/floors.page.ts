@@ -21,8 +21,9 @@ export class FloorsPage implements OnInit {
   data: any;
   temp: any;
   getValue: any;
-  test1: Array<Data>;
-  test2: Array<Data>;
+  test1: any;
+  test2: any;
+  
 
 
   constructor(private activeRoute: ActivatedRoute, private router: Router,private http: HttpClient){
@@ -32,11 +33,7 @@ export class FloorsPage implements OnInit {
     this.getValue = this.activeRoute.snapshot.paramMap.get("building");
     console.log(this.getValue);
     var Building = this.getValue;
-    // console.log(this.data);
-    // var Building = this.data;
     this.arrayData = new Array();
-    this.test1 = new Array();
-    this.test2 = new Array();
     var from = "2019-11-04 10:37:34";
     var to = "2019-11-04 10:39:29";
     // var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
@@ -59,41 +56,47 @@ export class FloorsPage implements OnInit {
         console.log(rdata);
         let temp = JSON.parse(rdata);
         this.arrayData = temp.Total;
-        // this.test1 = this.arrayData;
-        // console.log(this.test1);
+      //   this.test1 = temp.jsonarray.map(function(e) {
+      //     return e.Floor;
+      //  });
+      //   this.test2 = temp.jsonarray.map(function(e) {
+      //     return e.total;
+      //  });
+      //   console.log(this.test1);
+      //   console.log(this.test2);
+      var labels = temp.jsonarray.map(function(e) {
+        return e.Floor;
+     });
+     var values = temp.jsonarray.map(function(e) {
+        return e.total;
+     });
+      this.createChart(labels,values);
         }
+
       );
+
   }
-
-  ionViewDidEnter(){this.createBarChart()};
-
-  createBarChart() {
-    this.bars = new Chart(this.barChart.nativeElement, {
-      type: 'bar',
-      data: {
-        labels: [],
-        datasets: [{
-          label: 'Viewers in millions',
-          data: [],
-          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
-          borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
+  
+  createChart(labels,values){
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'This week',
+                data: values,
+            }]
+        },
     });
   }
+
+
+
 
   openTaps(x,y){
     this.router.navigate(["/taps",{building: x, floor: y}]);
   }
+
 
 }

@@ -1,9 +1,23 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="ios">
     <ion-title>
-      Tab Two
+      Complaints
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <div *ngFor="let i of arrayData">
+  <ion-card>
+    <ion-card-content>
+      <ion-col>Building:</ion-col><ion-col>{{i.Building}}</ion-col>
+      <br>
+      <ion-col>Floor:</ion-col><ion-col>{{i.Floor}}}}</ion-col>
+      <br>
+      <ion-col>Location:</ion-col><ion-col>{{i.location}}</ion-col>
+      <br>
+      <ion-col>Complaint:</ion-col><ion-col>{{i.Complaint}}</ion-col>
+    </ion-card-content>
+  </ion-card>
+</div>
+</ion-content>
