@@ -26,7 +26,7 @@ export class Tab2Page implements OnInit{
       location,
       Complaint // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-232-233-111.ap-south-1.compute.amazonaws.com:5000/buildpage', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-232-233-111.ap-south-1.compute.amazonaws.com:5000/complaint', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -35,5 +35,4 @@ export class Tab2Page implements OnInit{
         }
       );
   }
-
 }
