@@ -18,7 +18,7 @@
       <br>
       <ion-col>Complaint:</ion-col><ion-col>{{i.Complaint}}</ion-col>
       <br>
-      <ion-button color="danger" float-right>Delete</ion-button>
+      <ion-button color="danger" float-right (click)="del(i.Building,i.Floor,i.location,i.Complaint)">Delete</ion-button>
     </ion-card-content>
   </ion-card>
 </div>

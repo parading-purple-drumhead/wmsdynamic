@@ -35,4 +35,19 @@ export class Tab2Page implements OnInit{
         }
       );
   }
+
+  del(a,b,c,d){
+    var Building = a;
+    var Floor = b;
+    var location = c;
+    var Complaint = d;
+    const comp = {
+      Building,
+      Floor,
+      location,
+      Complaint // This adds it to the payload
+     }; 
+    this.http.post('http://ec2-13-232-233-111.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp);
+    this.ngOnInit();
+  }
 }
