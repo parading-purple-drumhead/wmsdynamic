@@ -7,7 +7,8 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   { path: 'floors', loadChildren: './tab1/floors/floors.module#FloorsPageModule' },
-  { path: 'taps', loadChildren: './tab1/floors/taps/taps.module#TapsPageModule' }
+  { path: 'taps', loadChildren: './tab1/floors/taps/taps.module#TapsPageModule' },
+  { path: 'compform', loadChildren: './tab2/compform/compform.module#CompformPageModule' }
 ];
 @NgModule({
   imports: [

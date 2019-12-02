@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Complaint</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form>
+      <ion-item>
+          <ion-label floating>Building:</ion-label>
+          <ion-input type="text" name="Building"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label floating>Floor:</ion-label>
+          <ion-input type="text" name="Floor"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label floating>Location:</ion-label>
+          <ion-input type="text" name="Location"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label floating>Complaint:</ion-label>
+          <ion-textarea type="textarea" name="Complaint" rows="5" cols="20"></ion-textarea>
+      </ion-item>
+      <ion-button type="submit" (click)="onSubmit()">Add Complaint</ion-button>
+  </form>
+
+  <ion-button (click)="urmum()">Ur Mum</ion-button>
+
+</ion-content>

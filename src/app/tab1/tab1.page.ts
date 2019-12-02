@@ -17,8 +17,8 @@ export class Tab1Page implements OnInit{
 
   ngOnInit(){
     this.arrayData = new Array();
-    var from = "2019-11-04 10:37:34";
-    var to = "2019-11-04 10:39:29";
+    var from = "2019-12-01 00:00:00";
+    var to = "2019-12-01 05:00:42";
     // var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
     // var to = new Date(date2.getTime() - date2.getTimezoneOffset()*60000).toISOString(); //This generates the new date
     // to = to.replace("T"," ");
@@ -32,7 +32,7 @@ export class Tab1Page implements OnInit{
       from,
       to // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-232-233-111.ap-south-1.compute.amazonaws.com:5000/buildpage', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/buildpage', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
