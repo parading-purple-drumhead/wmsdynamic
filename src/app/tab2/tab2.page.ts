@@ -48,8 +48,14 @@ export class Tab2Page implements OnInit{
       location,
       Complaint // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp, {responseType: 'text'});
-    this.ngOnInit();
+    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp, {responseType: 'text'}).subscribe(
+    
+      rdata => {
+        console.log(rdata);
+        let temp = JSON.parse(rdata);
+        this.arrayData = temp.Complaints;        
+        }
+      );
   }
 
   addcomp(){

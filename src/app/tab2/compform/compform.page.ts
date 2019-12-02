@@ -20,9 +20,9 @@ export class CompformPage implements OnInit {
   urmum(){
     console.log("Clicked");
     this.arrayData = new Array();
-    var Building = "Ur Mum";
-    var Floor  = "Ur Mum";
-    var location  = "Ur Mum";
+    var Building = "UB";
+    var Floor  = "6";
+    var location  = "CB";
     var Complaint  = "Ur Mum";
     const data = {
       Building,
@@ -30,7 +30,14 @@ export class CompformPage implements OnInit {
       location,
       Complaint // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/inscomplaint', data);
+    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/inscomplaint', data, {responseType: 'text'}).subscribe(
+    
+      rdata => {
+        console.log(rdata);
+        let temp = JSON.parse(rdata);
+        this.arrayData = temp.Complaints;        
+        }
+      );
   }
 
 }
