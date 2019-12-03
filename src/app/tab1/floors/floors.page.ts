@@ -21,8 +21,8 @@ export class FloorsPage implements OnInit {
   data: any;
   temp: any;
   getValue: any;
-  test1: any;
-  test2: any;
+  test1: Array<Data>;
+  test2: Array<Data>;
   
 
 
@@ -34,6 +34,8 @@ export class FloorsPage implements OnInit {
     console.log(this.getValue);
     var Building = this.getValue;
     this.arrayData = new Array();
+    this.test1 = new Array();
+    this.test2 = new Array();
     var from = "2019-12-01 00:00:00";
     var to = "2019-12-01 05:00:42";
     // var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
@@ -56,43 +58,43 @@ export class FloorsPage implements OnInit {
         console.log(rdata);
         let temp = JSON.parse(rdata);
         this.arrayData = temp.Total;
-      //   this.test1 = temp.jsonarray.map(function(e) {
-      //     return e.Floor;
-      //  });
-      //   this.test2 = temp.jsonarray.map(function(e) {
-      //     return e.total;
-      //  });
-      //   console.log(this.test1);
-      //   console.log(this.test2);
-      var labels = temp.jsonarray.map(function(e) {
-        return e.Floor;
-     });
-     var values = temp.jsonarray.map(function(e) {
-        return e.total;
-     });
-      this.createChart(labels,values);
+        var length = temp.Total.length;
+        console.log(length);
+        for (var i=0; i<length; i++){
+        this.test1.push(temp.Total[i].Floor);
+        this.test2.push(temp.Total[i].total);
         }
-
-      );
-
+        console.log(this.test1);
+        console.log(this.test2);
+        this.createBarChart();
+        }
+    );
   }
-  
-  createChart(labels,values){
-    var ctx = document.getElementById("myChart");
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'This week',
-                data: values,
-            }]
-        },
+
+  createBarChart() {
+    this.bars = new Chart(this.barChart.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.test1,
+        datasets: [{
+          label: 'Consumption in Litres',
+          data: this.test2,
+          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
+          borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
     });
-  }
-
-
-
+  }  
 
   openTaps(x,y){
     this.router.navigate(["/taps",{building: x, floor: y}]);

@@ -6,7 +6,14 @@
 
 <ion-content>
 
-  <canvas id="myChart"></canvas>
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <ion-card-title>{{this.getValue}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChart></canvas>
+    </ion-card-content>
+  </ion-card>
 
 <ion-list *ngFor="let i of arrayData">
   <ion-item (click)="openTaps(i.Building,i.Floor)"><ion-col>Floor {{i.Floor}}</ion-col><ion-col>Total: {{i.total.toFixed(2)}}</ion-col></ion-item>
