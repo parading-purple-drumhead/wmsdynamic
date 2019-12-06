@@ -17,15 +17,17 @@ export class Tab1Page implements OnInit{
 
   ngOnInit(){
     this.arrayData = new Array();
-    var from = "2019-12-01 00:00:00";
-    var to = "2019-12-01 05:00:42";
-    // var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
-    // var to = new Date(date2.getTime() - date2.getTimezoneOffset()*60000).toISOString(); //This generates the new date
-    // to = to.replace("T"," ");
-    // to = to.substr(0, to.length - 5);
-    // from = from.replace("T"," ");
-    // from = from.substr(0, from.length - 13);
-    // from = from.replace(" "," 00:00:00")
+    // var from = "2019-12-01 00:00:00";
+    // var to = "2019-12-01 05:00:42";
+    let date1 = new Date();
+    let date2 = new Date();
+    var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
+    var to = new Date(date2.getTime() - date2.getTimezoneOffset()*60000).toISOString(); //This generates the new date
+    to = to.replace("T"," ");
+    to = to.substr(0, to.length - 5);
+    from = from.replace("T"," ");
+    from = from.substr(0, from.length - 13);
+    from = from.replace(" "," 00:00:00")
     console.log("From: " + from)
     console.log("To: " + to);
     const data = {
