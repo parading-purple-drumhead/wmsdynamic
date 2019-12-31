@@ -18,12 +18,8 @@
         <ion-select-option *ngFor="let i of floorNames" [value]="i.Floor" name="any">{{i.Floor}}</ion-select-option>
       </ion-select>
     </ion-item>
-    <!-- <ion-item>
-      <ion-label position="floating">Floor</ion-label>
-      <ion-input type="text" required name="Floor" ngModel></ion-input>
-    </ion-item> -->
     <ion-item>
-      <ion-label position="floating">Location</ion-label>
+      <ion-label position="floating">Room/CB</ion-label>
       <ion-input type="text" required name="Location" ngModel></ion-input>
     </ion-item>
     <ion-item>
@@ -31,8 +27,7 @@
       <ion-textarea required name="Complaint" ngModel></ion-textarea>
     </ion-item>
     <div class="ion-padding">
-      <ion-button expand="block" type="submit" class="ion-no-margin" [disabled]="form.invalid" color="success">
-        Add Complaint</ion-button>
+      <ion-button expand="block" type="submit" class="ion-no-margin" [disabled]="form.invalid" color="success">Add Complaint</ion-button>
     </div>
   </form>
 </ion-content>

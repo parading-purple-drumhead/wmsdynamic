@@ -5,7 +5,6 @@
 </ion-header>
 
 <ion-content>
-
   <ion-card class="welcome-card">
     <ion-card-header>
       <ion-card-title>{{this.getValue}}</ion-card-title>
@@ -31,7 +30,6 @@
     </ion-card-content>
     <ion-button (click)="toggle()">Submit</ion-button>
   </ion-card>
-
 <ion-list *ngFor="let i of arrayData">
   <ion-item (click)="openTaps(i.Building,i.Floor)"><ion-col>Floor {{i.Floor}}</ion-col><ion-col>Total: {{i.total.toFixed(2)}}</ion-col></ion-item>
 </ion-list>

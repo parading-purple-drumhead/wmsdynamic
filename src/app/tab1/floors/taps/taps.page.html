@@ -5,7 +5,32 @@
 </ion-header>
 
 <ion-content>
-<ion-list *ngFor="let i of arrayData">
-  <ion-item><ion-col>Tap {{i.tap_id}}</ion-col><ion-col>{{i.total}}</ion-col></ion-item>
-</ion-list>
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <ion-card-title>{{this.getValue}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChart></canvas>
+      <ion-item>
+        <ion-label>From</ion-label>
+        <ion-datetime min="1990" max="2099"
+          [dayShortNames]="customDayShortNames"
+          displayFormat="HH:mm, DD MMM, YY"
+          monthShortNames="Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
+          [(ngModel)] = "manfrom"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>To</ion-label>
+        <ion-datetime min="1990" max="2099"
+          [dayShortNames]="customDayShortNames"
+          displayFormat="HH:mm, DD MMM, YY"
+          monthShortNames="Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
+          [(ngModel)] = "manto"></ion-datetime>
+      </ion-item>
+    </ion-card-content>
+    <ion-button (click)="toggle()">Submit</ion-button>
+  </ion-card>
+  <ion-list *ngFor="let i of arrayData">
+   <ion-item><ion-col>Tap {{i.tap_id}}</ion-col><ion-col>{{i.total}}</ion-col></ion-item>
+  </ion-list>
 </ion-content>

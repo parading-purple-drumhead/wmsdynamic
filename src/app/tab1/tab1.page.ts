@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, Data, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -12,13 +14,14 @@ import { NavController } from '@ionic/angular';
 export class Tab1Page implements OnInit{
 
   arrayData: Array<Data>;
+  user: any;
 
-  constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute) {};
+  constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
+    private authService: AuthService, private storage: Storage) {};
 
+    
   ngOnInit(){
     this.arrayData = new Array();
-    // var from = "2019-12-01 00:00:00";
-    // var to = "2019-12-01 05:00:42";
     let date1 = new Date();
     let date2 = new Date();
     var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
@@ -46,5 +49,10 @@ export class Tab1Page implements OnInit{
 
   openFloors(x){
     this.router.navigate(['/floors',{building:x}]);
+  }
+
+  logout(){
+    this.authService.logout();
+    this.navCtrl.navigateRoot('/login');
   }
 }

@@ -71,12 +71,10 @@ export class CompformPage implements OnInit {
     this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/inscomplaint', data, {responseType: 'text'}).subscribe(
     
       rdata => {
-        console.log(rdata);
-        let temp = JSON.parse(rdata);
-        this.arrayData = temp.Complaints;        
+        console.log(rdata);        
         }
       );
-    this.router.navigate(['/tabs/tab2']);
+    this.router.navigateByUrl('/tabs/tab2');
   }
 
 

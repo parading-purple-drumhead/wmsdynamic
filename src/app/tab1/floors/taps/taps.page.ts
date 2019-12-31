@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, Data, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-taps',
@@ -10,11 +11,23 @@ import { NavController } from '@ionic/angular';
 })
 export class TapsPage implements OnInit {
 
+  @ViewChild('barChart',null) barChart;
+
+  bars: any;
+  colorArray: any;
+
   arrayData: Array<Data>;
   data: any;
   temp: any;
   getBuilding: any;
   getFloor: any;
+  getValue: any;
+  test1: Array<Data>;
+  test2: Array<Data>;
+  from: string;
+  to: string;
+  manfrom: Date;
+  manto: Date;
 
   constructor(private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,private http: HttpClient) { }
 
@@ -25,20 +38,22 @@ export class TapsPage implements OnInit {
     this.getFloor = this.activeRoute.snapshot.paramMap.get("floor");
     console.log(this.getFloor);
     var Floor = this.getFloor;
-    // console.log(this.data);
-    // var Building = this.data;
     this.arrayData = new Array();
-    var from = "2019-12-01 00:00:00";
-    var to = "2019-12-01 05:00:42";
-    // var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
-    // var to = new Date(date2.getTime() - date2.getTimezoneOffset()*60000).toISOString(); //This generates the new date
-    // to = to.replace("T"," ");
-    // to = to.substr(0, to.length - 5);
-    // from = from.replace("T"," ");
-    // from = from.substr(0, from.length - 13);
-    // from = from.replace(" "," 00:00:00")
-    console.log("From: " + from)
-    console.log("To: " + to);
+    this.test1 = new Array();
+    this.test2 = new Array();
+    let date1 = new Date();
+    let date2 = new Date();
+    this.from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
+    this.to = new Date(date2.getTime() - date2.getTimezoneOffset()*60000).toISOString(); //This generates the new date
+    this.to = this.to.replace("T"," ");
+    this.to = this.to.substr(0, this.to.length - 5);
+    this.from = this.from.replace("T"," ");
+    this.from = this.from.substr(0, this.from.length - 13);
+    this.from = this.from.replace(" "," 00:00:00")
+    console.log("From: " + this.from)
+    console.log("To: " + this.to);
+    var to = this.to;
+    var from = this.from;
     const data = {
       from,
       to,
@@ -50,9 +65,85 @@ export class TapsPage implements OnInit {
       rdata => {
         console.log(rdata);
         let temp = JSON.parse(rdata);
-        this.arrayData = temp.Total;        
+        this.arrayData = temp.Total;
+        var length = temp.Total.length;
+        console.log(length);
+        for (var i=0; i<length; i++){
+        this.test1.push(temp.Total[i].tap_id);
+        this.test2.push(temp.Total[i].total);
+        }
+        console.log(this.test1);
+        console.log(this.test2);
+        this.createBarChart();        
         }
       );
+  }
+
+  createBarChart() {
+    this.bars = new Chart(this.barChart.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: this.test1,
+        datasets: [{
+          label: 'Consumption in Litres',
+          data: this.test2,
+          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
+          borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  }
+
+  toggle(){
+    var manfrom: string;
+    var manto: string;
+    manfrom = new Date(this.manfrom).toISOString();
+    manto = new Date(this.manto).toISOString();
+    manfrom = manfrom.replace("T"," ");
+    manfrom = manfrom.substr(0, manfrom.length - 5);
+    manto = manto.replace("T"," ");
+    manto = manto.substr(0, manto.length - 5);
+    this.getValue = this.activeRoute.snapshot.paramMap.get("building");
+    var Building = this.getValue;
+    this.arrayData = new Array();
+    this.test1 = new Array();
+    this.test2 = new Array();
+    console.log("From: " + manfrom)
+    console.log("To: " + manto);
+    var to = manto;
+    var from = manfrom;
+    const data = {
+      from,
+      to,
+      Building // This adds it to the payload
+     }; 
+    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/getDetails', data, {responseType: 'text'}).subscribe(
+    
+      rdata => {
+        console.log(rdata);
+        let temp = JSON.parse(rdata);
+        this.arrayData = temp.Total;
+        var length = temp.Total.length;
+        console.log(length);
+        for (var i=0; i<length; i++){
+        this.test1.push(temp.Total[i].tap_id);
+        this.test2.push(temp.Total[i].total);
+        }
+        console.log(this.test1);
+        console.log(this.test2);
+        this.createBarChart();
+        }
+    );
   }
 
 }

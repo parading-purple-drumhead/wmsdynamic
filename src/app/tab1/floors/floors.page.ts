@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, Data } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Chart } from 'chart.js';
-import { viewClassName } from '@angular/compiler';
-
 
 @Component({
   selector: 'app-floors',

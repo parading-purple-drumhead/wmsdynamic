@@ -7,6 +7,11 @@
 </ion-header>
 
 <ion-content>
+  <ion-item>
+    <ion-select [(ngModel)]="building" (ngModelChange)="buildSelect($event)" name="Building">
+      <ion-select-option *ngFor="let i of buildNames" [value]="i.Building" name="any">{{i.Building}}</ion-select-option>
+    </ion-select>
+  </ion-item>
   <div *ngFor="let i of arrayData">
   <ion-card>
     <ion-card-content>
@@ -14,11 +19,11 @@
       <br>
       <ion-col>Floor:</ion-col><ion-col>{{i.Floor}}</ion-col>
       <br>
-      <ion-col>Location:</ion-col><ion-col>{{i.location}}</ion-col>
+      <ion-col>Room/CB:</ion-col><ion-col>{{i.location}}</ion-col>
       <br>
       <ion-col>Complaint:</ion-col><ion-col>{{i.Complaint}}</ion-col>
       <br>
-      <ion-button color="danger" float-right (click)="del(i.Building,i.Floor,i.location,i.Complaint)">Delete</ion-button>
+      <ion-button color="danger" vertical="bottom" horizontal="end" (click)="del(i.Building,i.Floor,i.location,i.Complaint)">Delete</ion-button>
     </ion-card-content>
   </ion-card>
 </div>

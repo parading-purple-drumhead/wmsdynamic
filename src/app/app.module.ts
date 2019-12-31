@@ -13,11 +13,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Tab1Page } from './tab1/tab1.page';
 import { FloorsPage } from './tab1/floors/floors.page';
+import { IonicStorageModule } from '@ionic/storage';
+
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpModule, HttpClientModule,ReactiveFormsModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpModule, HttpClientModule,ReactiveFormsModule,IonicStorageModule.forRoot()],
   providers: [
     StatusBar,
     SplashScreen,
