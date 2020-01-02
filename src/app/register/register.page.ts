@@ -28,7 +28,7 @@ export class RegisterPage implements OnInit {
       email,
       password,
     };
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/signup', data, { responseType: 'text' }).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/signup', data, { responseType: 'text' }).subscribe(
       rdata => {
         if (rdata === 'True') {
          console.log("Registered Successfully");

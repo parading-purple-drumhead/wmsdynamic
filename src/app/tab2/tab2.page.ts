@@ -33,7 +33,7 @@ export class Tab2Page implements OnInit{
     console.log("Function called");
     this.arrayData = new Array();
     const data = { }; 
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/complaint', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/complaint', data, {responseType: 'text'}).subscribe(
       rdata => {
         console.log(rdata);
         let temp = JSON.parse(rdata);
@@ -50,7 +50,7 @@ export class Tab2Page implements OnInit{
     const data = {
       Building,// This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/filter', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/filter', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -66,7 +66,7 @@ export class Tab2Page implements OnInit{
     const data = {
       // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/building', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/building', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -91,7 +91,7 @@ export class Tab2Page implements OnInit{
       Complaint,
       username // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -124,5 +124,14 @@ export class Tab2Page implements OnInit{
       });
   
       await alert.present();
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      this.ngOnInit();
+      event.target.complete();
+    }, 500);
   }
 }

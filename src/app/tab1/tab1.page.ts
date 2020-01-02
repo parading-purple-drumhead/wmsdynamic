@@ -37,7 +37,7 @@ export class Tab1Page implements OnInit{
       from,
       to // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/buildpage', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/buildpage', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -54,5 +54,14 @@ export class Tab1Page implements OnInit{
   logout(){
     this.authService.logout();
     this.navCtrl.navigateRoot('/login');
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      this.ngOnInit();
+      event.target.complete();
+    }, 500);
   }
 }

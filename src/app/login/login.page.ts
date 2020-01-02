@@ -45,7 +45,7 @@ export class LoginPage implements OnInit{
     const password=form.value.password;
     console.log(username,password);
     const data={username,password};
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/login',data,{responseType:'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/login',data,{responseType:'text'}).subscribe(
       rdata=>{
         console.log(rdata);
         if(rdata.indexOf('AccessToken') !== -1)

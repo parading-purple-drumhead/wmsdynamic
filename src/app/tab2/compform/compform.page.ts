@@ -23,7 +23,7 @@ export class CompformPage implements OnInit {
 
   ngOnInit(){
     var data = null;
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/dropbuild', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/dropbuild', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -40,7 +40,7 @@ export class CompformPage implements OnInit {
     const data = {
       Building,
     };
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/dropfloor', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/dropfloor', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -68,7 +68,7 @@ export class CompformPage implements OnInit {
       location,
       Complaint // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/inscomplaint', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/inscomplaint', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);        

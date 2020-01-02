@@ -60,7 +60,7 @@ export class TapsPage implements OnInit {
       Building,
       Floor // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/getDetails', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/getDetails', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -127,7 +127,7 @@ export class TapsPage implements OnInit {
       to,
       Building // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-233-95-111.ap-south-1.compute.amazonaws.com:5000/getDetails', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/getDetails', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -144,6 +144,15 @@ export class TapsPage implements OnInit {
         this.createBarChart();
         }
     );
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      this.ngOnInit();
+      event.target.complete();
+    }, 500);
   }
 
 }
