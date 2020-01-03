@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="light">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -39,4 +39,4 @@
   <ion-list *ngFor="let i of arrayData">
    <ion-item><ion-col>Tap {{i.tap_id}}</ion-col><ion-col>{{i.total}}</ion-col></ion-item>
   </ion-list>
-</ion-content>
+</ion-content color="light">
