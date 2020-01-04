@@ -15,12 +15,16 @@ export class Tab1Page implements OnInit{
 
   arrayData: Array<Data>;
   user: any;
+  AccessToken: any;
 
   constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
     private authService: AuthService, private storage: Storage) {};
 
     
   ngOnInit(){
+    this.storage.get('AccessToken').then((val) => {
+      this.AccessToken = val;
+    });
     this.arrayData = new Array();
     let date1 = new Date();
     let date2 = new Date();
@@ -52,7 +56,15 @@ export class Tab1Page implements OnInit{
   }
 
   logout(){
-    this.authService.logout();
+    var AccessToken = this.AccessToken;
+    const data = {
+      AccessToken
+    }
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/logout',data,{responseType: 'text'}).subscribe(
+      rdata => {
+        console.log(rdata);
+      }
+    )
     this.navCtrl.navigateRoot('/login');
   }
 

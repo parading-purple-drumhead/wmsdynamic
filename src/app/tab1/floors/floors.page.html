@@ -37,6 +37,6 @@
     <ion-button (click)="toggle()">Submit</ion-button>
   </ion-card>
 <ion-list *ngFor="let i of arrayData">
-  <ion-item (click)="openTaps(i.Building,i.Floor)"><ion-col>Floor {{i.Floor}}</ion-col><ion-col>Total: {{i.total.toFixed(2)}}</ion-col></ion-item>
+  <ion-item (click)="openTaps(i.Building,i.Floor)"><ion-col>Floor {{i.Floor}}</ion-col><ion-col>{{i.total.toFixed(2)}} Litres</ion-col></ion-item>
 </ion-list>
 </ion-content>

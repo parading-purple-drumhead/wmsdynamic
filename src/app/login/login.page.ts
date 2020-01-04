@@ -50,6 +50,10 @@ export class LoginPage implements OnInit{
         console.log(rdata);
         if(rdata.indexOf('AccessToken') !== -1)
         {
+          let temp = JSON.parse(rdata);
+          const AccessToken = temp.AccessToken;
+          console.log(AccessToken);
+          this.storage.set('AccessToken', AccessToken);
           this.goToBuildPage(username);          
         }
         else{
