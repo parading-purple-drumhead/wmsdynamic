@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, Data } from '@angular/router';
-import { NavController,AlertController } from '@ionic/angular';
+import { NavController,AlertController, PopoverController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Storage } from '@ionic/storage';
+import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
 
 @Component({
   selector: 'app-tab2',
@@ -13,7 +14,7 @@ import { Storage } from '@ionic/storage';
 export class Tab2Page implements OnInit{
 
   constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
-    private authService: AuthService, private storage: Storage, private alert: AlertController) {}
+    private authService: AuthService, private storage: Storage, private alert: AlertController, private popover: PopoverController) {}
 
   arrayData: Array<Data>
   buildNames: Array<Data>
@@ -32,7 +33,9 @@ export class Tab2Page implements OnInit{
   displayComplaints(){
     console.log("Function called");
     this.arrayData = new Array();
-    const data = { }; 
+    const data = { 
+      //Empty payload
+    }; 
     this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/complaint', data, {responseType: 'text'}).subscribe(
       rdata => {
         console.log(rdata);
@@ -64,7 +67,7 @@ export class Tab2Page implements OnInit{
   buildinglist(){
     this.buildNames = new Array();
     const data = {
-      // This adds it to the payload
+      // Empty payload
      }; 
     this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/building', data, {responseType: 'text'}).subscribe(
     
@@ -133,5 +136,13 @@ export class Tab2Page implements OnInit{
       this.ngOnInit();
       event.target.complete();
     }, 500);
+  }
+
+  async openPopOver(event){
+    const popover = await this.popover.create({
+      component: AppPopOverComponent,
+      event
+    });
+    return await popover.present();
   }
 }

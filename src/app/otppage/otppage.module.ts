@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+
 import { IonicModule } from '@ionic/angular';
-import { CompformPage } from './compform.page';
-import { ComponentsModule } from 'src/app/components/components.module';
+
+import { OtppagePage } from './otppage.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: CompformPage
+    component: OtppagePage
   }
 ];
 
@@ -19,10 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    ComponentsModule,
-    ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [CompformPage]
+  declarations: [OtppagePage]
 })
-export class CompformPageModule {}
+export class OtppagePageModule {}

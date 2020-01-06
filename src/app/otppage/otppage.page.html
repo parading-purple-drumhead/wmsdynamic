@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Enter OTP</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Enter your OTP
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form #form="ngForm" (ngSubmit)="enterOTP(form)" >
+      <p>An OTP has been sent to your registered email. Kindly check your email.</p>
+      <ion-input type="text" placeholder="Enter OTP" expand="block" name="otp" ngModel></ion-input>
+      <ion-input type="password" placeholder="Enter new password" expand="block" name="password" ngModel></ion-input>
+      <ion-button type="submit">Proceed</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

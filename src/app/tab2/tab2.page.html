@@ -3,6 +3,11 @@
     <ion-title>
       Complaints
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openPopOver($event)">
+        <ion-icon name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +16,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-item>
-    <ion-select [(ngModel)]="building" (ngModelChange)="buildSelect($event)" name="Building">
+    <ion-select [(ngModel)]="building" (ngModelChange)="buildSelect($event)" name="Building" placeholder="Select Building">
       <ion-select-option *ngFor="let i of buildNames" [value]="i.Building" name="any">{{i.Building}}</ion-select-option>
     </ion-select>
   </ion-item>

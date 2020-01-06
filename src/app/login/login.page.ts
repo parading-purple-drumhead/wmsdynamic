@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 
 
@@ -14,7 +14,7 @@ import { Storage } from '@ionic/storage';
 export class LoginPage implements OnInit{
 
   constructor(private http: HttpClient,private router:Router, private authService: AuthService, private navCtrl: NavController,
-    private storage: Storage) { }
+    private storage: Storage, private alert: AlertController) { }
   
   authenticated = false;
   loginForm: boolean;
@@ -59,8 +59,23 @@ export class LoginPage implements OnInit{
         else{
           console.log(rdata);
           this.error=rdata;
+          this.errorAlert(this.error);
         }
       },
     );
+  }
+
+  async errorAlert(error){
+      const alert = await this.alert.create({
+        header: 'Login Failed',
+        message: error,
+        buttons: ['OK']
+      });
+  
+      await alert.present();
+  }
+
+  forgotPassword(){
+    this.router.navigate(['/forgotpw']);
   }
 }

@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reset Password</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Reset your password
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form #form="ngForm" (ngSubmit)="changePass(form)" >
+      <p>Enter your current password and your new password.</p>
+      <ion-input type="password" placeholder="Enter old password" expand="block" name="oldpass" ngModel></ion-input>
+      <ion-input type="password" placeholder="Enter new password" expand="block" name="newpass" ngModel></ion-input>
+      <ion-button type="submit">Proceed</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

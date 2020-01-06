@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
+import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
 
 @Component({
   selector: 'app-tab3',
@@ -7,6 +9,13 @@ import { Component } from '@angular/core';
 })
 export class Tab3Page {
 
-  constructor() {}
+  constructor(private popover: PopoverController) {}
 
+  async openPopOver(event){
+    const popover = await this.popover.create({
+      component: AppPopOverComponent,
+      event
+    });
+    return await popover.present();
+  }
 }

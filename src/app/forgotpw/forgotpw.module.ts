@@ -2,15 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { IonicStorageModule } from '@ionic/storage';
+
 import { IonicModule } from '@ionic/angular';
-import { CompformPage } from './compform.page';
-import { ComponentsModule } from 'src/app/components/components.module';
+
+import { ForgotpwPage } from './forgotpw.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: CompformPage
+    component: ForgotpwPage
   }
 ];
 
@@ -19,10 +20,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    ComponentsModule,
-    ReactiveFormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    IonicStorageModule.forRoot()
   ],
-  declarations: [CompformPage]
+  declarations: [ForgotpwPage]
 })
-export class CompformPageModule {}
+export class ForgotpwPageModule {}

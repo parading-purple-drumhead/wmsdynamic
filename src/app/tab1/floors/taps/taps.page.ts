@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, Data, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { NavController } from '@ionic/angular';
+import { NavController, PopoverController } from '@ionic/angular';
 import { Chart } from 'chart.js';
+import { AppPopOverComponent } from 'src/app/app-pop-over/app-pop-over.component';
 
 @Component({
   selector: 'app-taps',
@@ -29,7 +30,8 @@ export class TapsPage implements OnInit {
   manfrom: Date;
   manto: Date;
 
-  constructor(private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,private http: HttpClient) { }
+  constructor(private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,private http: HttpClient,
+    private popover: PopoverController) { }
 
   ngOnInit() {
     this.getBuilding = this.activeRoute.snapshot.paramMap.get("building");
@@ -154,5 +156,12 @@ export class TapsPage implements OnInit {
       event.target.complete();
     }, 500);
   }
-
+  
+  async openPopOver(event){
+    const popover = await this.popover.create({
+      component: AppPopOverComponent,
+      event
+    });
+    return await popover.present();
+  }
 }

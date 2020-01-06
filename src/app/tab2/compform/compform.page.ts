@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, Data } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, PopoverController } from '@ionic/angular';
+import { AppPopOverComponent } from 'src/app/app-pop-over/app-pop-over.component';
 
 
 @Component({
@@ -11,7 +12,8 @@ import { NavController } from '@ionic/angular';
 })
 export class CompformPage implements OnInit {
 
-  constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute) { }
+  constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
+    private popover: PopoverController) { }
 
   build: string = '';
   Floor: string = '';
@@ -77,5 +79,11 @@ export class CompformPage implements OnInit {
     this.router.navigateByUrl('/tabs/tab2');
   }
 
-
+  async openPopOver(event){
+    const popover = await this.popover.create({
+      component: AppPopOverComponent,
+      event
+    });
+    return await popover.present();
+  }
 }

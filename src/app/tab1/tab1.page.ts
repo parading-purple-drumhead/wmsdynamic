@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Data, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { NavController } from '@ionic/angular';
+import { NavController, PopoverController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Storage } from '@ionic/storage';
+import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class Tab1Page implements OnInit{
   AccessToken: any;
 
   constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
-    private authService: AuthService, private storage: Storage) {};
+    private authService: AuthService, private storage: Storage,private popover: PopoverController) {};
 
     
   ngOnInit(){
@@ -55,19 +56,6 @@ export class Tab1Page implements OnInit{
     this.router.navigate(['/floors',{building:x}]);
   }
 
-  logout(){
-    var AccessToken = this.AccessToken;
-    const data = {
-      AccessToken
-    }
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/logout',data,{responseType: 'text'}).subscribe(
-      rdata => {
-        console.log(rdata);
-      }
-    )
-    this.navCtrl.navigateRoot('/login');
-  }
-
   doRefresh(event) {
     console.log('Begin async operation');
     setTimeout(() => {
@@ -75,5 +63,13 @@ export class Tab1Page implements OnInit{
       this.ngOnInit();
       event.target.complete();
     }, 500);
+  }
+
+  async openPopOver(event){
+    const popover = await this.popover.create({
+      component: AppPopOverComponent,
+      event
+    });
+    return await popover.present();
   }
 }

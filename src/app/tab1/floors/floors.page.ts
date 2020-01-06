@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, Data } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Chart } from 'chart.js';
+import { PopoverController } from '@ionic/angular';
+import { AppPopOverComponent } from 'src/app/app-pop-over/app-pop-over.component';
 
 @Component({
   selector: 'app-floors',
@@ -28,7 +30,7 @@ export class FloorsPage implements OnInit {
 
 
 
-  constructor(private activeRoute: ActivatedRoute, private router: Router,private http: HttpClient){
+  constructor(private activeRoute: ActivatedRoute, private router: Router,private http: HttpClient,private popover: PopoverController){
   }
 
   ngOnInit() {
@@ -153,5 +155,13 @@ export class FloorsPage implements OnInit {
       this.ngOnInit();
       event.target.complete();
     }, 500);
+  }
+
+  async openPopOver(event){
+    const popover = await this.popover.create({
+      component: AppPopOverComponent,
+      event
+    });
+    return await popover.present();
   }
 }
