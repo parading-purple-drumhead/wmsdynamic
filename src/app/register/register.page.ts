@@ -23,9 +23,9 @@ export class RegisterPage implements OnInit {
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[srmist/srmuniv]+.edu.in+$')
         ,
       ])),
-      username: new FormControl('',Validators.compose([
-        Validators.required,
-      ]))
+      // username: new FormControl('',Validators.compose([
+      //   Validators.required,
+      // ]))
     });
    }
 
@@ -44,9 +44,9 @@ export class RegisterPage implements OnInit {
       { type: 'pattern', message: 'Please use your college email ID'}
       
     ],
-    'username': [
-      { type: 'required', message: 'Please enter your Name'},
-    ],
+    // 'username': [
+    //   { type: 'required', message: 'Please enter your Name'},
+    // ],
   }
  
   registerForm: boolean;
@@ -55,7 +55,7 @@ export class RegisterPage implements OnInit {
     
     const email = form.value.email;
     const password = form.value.password;
-    const username = form.value.username;
+    const username = form.value.email;
     const data = {
       username,
       email,
@@ -66,11 +66,12 @@ export class RegisterPage implements OnInit {
       rdata => {
         console.log(rdata);
         if (rdata === 'True') {
-         console.log("Registered Successfully");
+         alert("Registered Successfully");
          this.router.navigate(['/login']);
         } else {
           console.log(rdata);
           this.error = rdata;
+          alert(this.error);
         }
       },        
       );

@@ -28,6 +28,9 @@ export class ForgotpwPage implements OnInit {
         if(rdata === "True"){
           this.route.navigate(['/otppage']);
         }
+        else{
+          alert("User doesn't exist");
+        }
       }
     )
   }
