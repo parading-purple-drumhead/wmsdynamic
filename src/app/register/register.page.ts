@@ -23,9 +23,6 @@ export class RegisterPage implements OnInit {
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[srmist/srmuniv]+.edu.in+$')
         ,
       ])),
-      // username: new FormControl('',Validators.compose([
-      //   Validators.required,
-      // ]))
     });
    }
 
@@ -42,11 +39,7 @@ export class RegisterPage implements OnInit {
     'email': [
       { type: 'required', message: 'Please enter the Email ID'},
       { type: 'pattern', message: 'Please use your college email ID'}
-      
     ],
-    // 'username': [
-    //   { type: 'required', message: 'Please enter your Name'},
-    // ],
   }
  
   registerForm: boolean;
