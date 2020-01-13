@@ -17,6 +17,7 @@
   </ion-refresher>
   <ion-item>
     <ion-select [(ngModel)]="building" (ngModelChange)="buildSelect($event)" name="Building" placeholder="Select Building">
+      <ion-select-option [value]="all" name="all">All</ion-select-option>
       <ion-select-option *ngFor="let i of buildNames" [value]="i.Building" name="any">{{i.Building}}</ion-select-option>
     </ion-select>
   </ion-item>

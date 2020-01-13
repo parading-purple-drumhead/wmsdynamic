@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { CompareValidatorDirective } from '../directives/compare-validator.directive';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,11 @@ export class RegisterPage implements OnInit {
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(15),
-        // Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})')
+      ])),
+      confirmpassword: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(15),
       ])),
       email: new FormControl('',Validators.compose([
         Validators.required,

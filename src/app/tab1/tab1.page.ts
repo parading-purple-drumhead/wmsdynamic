@@ -23,9 +23,10 @@ export class Tab1Page implements OnInit{
 
     
   ngOnInit(){
-    this.storage.get('AccessToken').then((val) => {
-      this.AccessToken = val;
-    });
+    this.displayBuildings();
+  }
+
+  displayBuildings(){
     this.arrayData = new Array();
     let date1 = new Date();
     let date2 = new Date();
@@ -38,6 +39,8 @@ export class Tab1Page implements OnInit{
     from = from.replace(" "," 00:00:00")
     console.log("From: " + from)
     console.log("To: " + to);
+    // const from = "2020-01-10 00:00:00";
+    // const to = "2020-01-10 14:11:38"
     const data = {
       from,
       to // This adds it to the payload
