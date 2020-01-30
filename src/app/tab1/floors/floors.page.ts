@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Chart } from 'chart.js';
 import { PopoverController } from '@ionic/angular';
 import { AppPopOverComponent } from 'src/app/app-pop-over/app-pop-over.component';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-floors',
@@ -25,35 +26,35 @@ export class FloorsPage implements OnInit {
   test2: Array<Data>;
   manfrom: Date;
   manto: Date;
+  Building: any;
 
-  constructor(private activeRoute: ActivatedRoute, private router: Router,private http: HttpClient,private popover: PopoverController){
+  constructor(private activeRoute: ActivatedRoute, private router: Router,private http: HttpClient,private popover: PopoverController,
+    private storage: Storage){
   }
 
   ngOnInit() {
     this.getValue = this.activeRoute.snapshot.paramMap.get("building");
     console.log(this.getValue);
-    var Building = this.getValue;
+    this.storage.set('buildingFloors', this.getValue);
+    this.storage.get('buildingFloors').then((building) => {
+      this.Building = building;
+    });
     let date1 = new Date();
     let date2 = new Date();
     var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
     var to = new Date(date2.getTime() - date2.getTimezoneOffset()*60000).toISOString(); //This generates the new date
-    to = to.replace("T"," ");
-    to = to.substr(0, to.length - 5);
     from = from.replace("T"," ");
     from = from.substr(0, from.length - 13);
-    from = from.replace(" "," 00:00:00")
-    this.displayFloors(from,to,Building);
+    from = from.replace(" "," 00:00:00");
+    to = to.replace("T"," ");
+    to = to.substr(0, to.length - 5);
+    this.displayFloors(from,to,this.Building);
   }
 
   displayFloors(from,to,Building){
     this.arrayData = new Array();
     this.test1 = new Array();
     this.test2 = new Array();
-    console.log("From: " + from)
-    console.log("To: " + to);
-    var to = to;
-    var from = from;
-    var Building = Building;
     const data = {
       from,
       to,
@@ -91,8 +92,8 @@ export class FloorsPage implements OnInit {
           borderWidth: 1
         }]
       },
-      options: {
-        scales: {
+      options: { 
+         scales: {
           yAxes: [{
             ticks: {
               beginAtZero: true
@@ -104,17 +105,15 @@ export class FloorsPage implements OnInit {
   }  
 
   toggle(){
-    var manfrom: string;
-    var manto: string;
-    manfrom = new Date(this.manfrom).toISOString();
-    manto = new Date(this.manto).toISOString();
-    manfrom = manfrom.replace("T"," ");
-    manfrom = manfrom.substr(0, manfrom.length - 5);
-    manto = manto.replace("T"," ");
-    manto = manto.substr(0, manto.length - 5);
-    console.log(this.getValue);
-    var Building = this.getValue;
-    this.displayFloors(manfrom,manto,Building);
+    var from = new Date(this.manfrom).toISOString();
+    from = from.replace("T"," ");
+    from = from.substr(0, from.length-5);
+    console.log("From:",from);
+    var to = new Date(this.manto).toISOString();
+    to = to.replace("T"," ");
+    to = to.substr(0, to.length-5);
+    console.log("To:",to);
+    this.displayFloors(from,to,this.Building);
   }
 
   openTaps(x,y){

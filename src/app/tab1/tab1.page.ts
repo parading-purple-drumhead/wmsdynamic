@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Data, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { NavController, PopoverController } from '@ionic/angular';
+import { NavController, PopoverController, LoadingController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Storage } from '@ionic/storage';
 import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
@@ -14,13 +14,13 @@ import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
 })
 export class Tab1Page implements OnInit{
 
+
   arrayData: Array<Data>;
   user: any;
   AccessToken: any;
 
   constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
-    private authService: AuthService, private storage: Storage,private popover: PopoverController) {};
-
+    private authService: AuthService, private storage: Storage,private popover: PopoverController,private loading: LoadingController) {};
     
   ngOnInit(){
     this.displayBuildings();

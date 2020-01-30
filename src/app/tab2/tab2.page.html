@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar mode="ios" color="primary">
+  <ion-toolbar mode="ios" color="light">
     <ion-title>
       Complaints
     </ion-title>
@@ -22,7 +22,7 @@
     </ion-select>
   </ion-item>
   <div *ngFor="let i of arrayData">
-  <ion-card>
+  <ion-card color="danger">
     <ion-card-content>
       <ion-col>Building:</ion-col><ion-col>{{i.Building}}</ion-col>
       <br>
@@ -36,7 +36,23 @@
     </ion-card-content>
   </ion-card>
 </div>
+<ion-card color="danger">
+  <!-- <ion-card-header>
+    <ion-icon name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
+  </ion-card-header> -->
+  <ion-card-content>
+    <ion-icon name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
+    <ion-col>Building:</ion-col><ion-col>UB</ion-col>
+    <br>
+    <ion-col>Floor:</ion-col><ion-col>5</ion-col>
+    <br>
+    <ion-col>Room/CB:</ion-col><ion-col>CB</ion-col>
+    <br>
+    <ion-col>Complaint:</ion-col><ion-col>Leak</ion-col>
+    <br>
+  </ion-card-content>
+</ion-card>
 <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-  <ion-fab-button (click)="addcomp()">+</ion-fab-button>
+  <ion-fab-button (click)="addcomp()" color="success">+</ion-fab-button>
 </ion-fab>
 </ion-content>

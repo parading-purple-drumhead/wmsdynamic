@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { NavController, PopoverController } from '@ionic/angular';
 import { Chart } from 'chart.js';
 import { AppPopOverComponent } from 'src/app/app-pop-over/app-pop-over.component';
+import { Storage } from '@ionic/storage'
 
 @Component({
   selector: 'app-taps',
@@ -27,17 +28,25 @@ export class TapsPage implements OnInit {
   test2: Array<Data>;
   manfrom: Date;
   manto: Date;
+  Building: any;
+  Floor: any;
 
   constructor(private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,private http: HttpClient,
-    private popover: PopoverController) { }
+    private popover: PopoverController, private storage: Storage) { }
 
   ngOnInit() {
     this.getBuilding = this.activeRoute.snapshot.paramMap.get("building");
     console.log(this.getBuilding);
-    var Building = this.getBuilding;
+    this.storage.set('buildingTaps', this.getBuilding);
+    this.storage.get('buildingTaps').then((building) => {
+      this.Building = building;
+    });
     this.getFloor = this.activeRoute.snapshot.paramMap.get("floor");
     console.log(this.getFloor);
-    var Floor = this.getFloor;
+    this.storage.set('floorTaps',this.getFloor);
+    this.storage.get('floorTaps').then((floor) => {
+      this.Floor = floor;
+    });
     let date1 = new Date();
     let date2 = new Date();
     var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
@@ -47,19 +56,15 @@ export class TapsPage implements OnInit {
     from = from.replace("T"," ");
     from = from.substr(0, from.length - 13);
     from = from.replace(" "," 00:00:00")
-    this.displayTaps(from,to,Building,Floor);
+    this.displayTaps(from,to,this.Building,this.Floor);
   }
 
   displayTaps(from,to,Building,Floor){
     this.arrayData = new Array();
     this.test1 = new Array();
     this.test2 = new Array();
-    console.log("From: " + from)
+    console.log("From: " + from);
     console.log("To: " + to);
-    var to = to;
-    var from = from;
-    var Building = Building;
-    var Floor = Floor;
     const data = {
       from,
       to,
@@ -103,6 +108,16 @@ export class TapsPage implements OnInit {
           yAxes: [{
             ticks: {
               beginAtZero: true
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Consumption'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Taps'
             }
           }]
         }
@@ -111,19 +126,15 @@ export class TapsPage implements OnInit {
   }
 
   toggle(){
-    var manfrom: string;
-    var manto: string;
-    manfrom = new Date(this.manfrom).toISOString();
-    manto = new Date(this.manto).toISOString();
-    manfrom = manfrom.replace("T"," ");
-    manfrom = manfrom.substr(0, manfrom.length - 5);
-    manto = manto.replace("T"," ");
-    manto = manto.substr(0, manto.length - 5);
-    var Building = this.getValue;
-    var Floor = this.getFloor;
-    var to = manto;
-    var from = manfrom;
-    this.displayTaps(from,to,Building,Floor);
+    var from = new Date(this.manfrom).toISOString();
+    from = from.replace("T"," ");
+    from = from.substr(0, from.length-5);
+    console.log("From:",from);
+    var to = new Date(this.manto).toISOString();
+    to = to.replace("T"," ");
+    to = to.substr(0, to.length-5);
+    console.log("To:",to);
+    this.displayTaps(from,to,this.Building,this.Floor);
   }
 
   doRefresh(event) {

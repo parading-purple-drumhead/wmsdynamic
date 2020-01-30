@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar mode="ios" color="primary">
+  <ion-toolbar mode="ios" color="light">
     <ion-title>
       Buildings
     </ion-title>
@@ -16,7 +16,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
     <div *ngFor="let i of arrayData" >
-        <ion-card (click)="openFloors(i.Building)">
+        <ion-card (click)="openFloors(i.Building)" color="primary">
           <ion-card-header>
             {{i.Building}}
           </ion-card-header>
