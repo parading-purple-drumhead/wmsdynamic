@@ -4,8 +4,6 @@ from flask_cors import CORS
 import boto3
 import sys
 import ssl
-#import paho.mqtt.client as mqtt
-#import paho.mqtt.subscribe as subscribe
 import json
 import logging, traceback
 import pymysql
@@ -13,14 +11,6 @@ import datetime
 import sched, time
 import threading
 import time
-
-conn = pymysql.connect(
-    host='water-db.c8iptqv0aosa.ap-south-1.rds.amazonaws.com',
-    user='admin',
-    password='admin123',
-    database='water'
-)
-conn.autocommit(True)
 app = Flask(__name__)
 cors=CORS(app,resources={r'/*':{'origins':'*'}})
 cog = boto3.client('cognito-idp', region_name='ap-south-1')
@@ -33,7 +23,7 @@ def signup():
         email = str(content['email'])
         x=0
         cogcli='2u1lch909cct1h3sftf1k9te2a'
-        if(email.rfind("srmist.edu.in")!=-1):
+        if(email.rfind("srmist.edu.in")!=-1 or email.rfind("srmuniv.edu.in")!=-1):
             cog.sign_up(
                 ClientId = cogcli,
                 Username = content['username'],
@@ -81,6 +71,7 @@ def dtSerializer(obj):
              return(obj.isoformat())
      else:
              TypeError('Unknown serializer')
+
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
     try:
@@ -90,116 +81,254 @@ def logout():
     except Exception as e:
         print(e)
         return "true"
+
+@app.route('/forgotpassword', methods=["GET", "POST"])
+def forgotpassword():
+    try:
+        content = json.loads(request.data)
+        cog.forgot_password(ClientId=cogcli, Username=content['Username'])
+    except cog.exceptions.UserNotFoundException:
+        return "User does not exist"
+    except Exception as e:
+        print(e)
+        return "False"
+    return "True"
+
+@app.route('/confirmPass', methods=["GET", "POST"])
+def confirmPass():
+    try:
+        content = json.loads(request.data)
+        cog.confirm_forgot_password(ClientId=cogcli, Username=content['Username'], ConfirmationCode=content['code'], Password=content['Password'])
+    except cog.exceptions.UserNotFoundException:
+        return "User does not exist. Try Again!"
+    except cog.exceptions.InvalidParameterException:
+        return "Email not verified"
+    except cog.exceptions.CodeMismatchException:
+        return "Invalid Confirmation Code"
+    except Exception as e:
+        print(e)
+        return "False"
+    return "True"
+
+@app.route('/ChangePassword', methods=["GET", "POST"])
+def ChangePassword():
+def ChangePassword():
+    try:
+        content = json.loads(request.data)
+        cog.change_password( PreviousPassword=content['Password'],ProposedPassword=content['NewPassword'],AccessToken=content['AccessToken'])
+    except cog.exceptions.UserNotFoundException:
+        return "User does not exist"
+    except cog.exceptions.InvalidParameterException:
+        return "Email not verified"
+    except cog.exceptions.InvalidPasswordException:
+        return "Invalid Password"
+    except Exception as e:
+        print(e)
+        return "False"
+    return "True"
+
 @app.route('/getDetails', methods=['GET', 'POST'])
 def getDetails():
         content = json.loads(request.data)
-        #fromDate = content['from']
-        #toDate = content['to']
+        conn = pymysql.connect(
+        host='water-db.c8iptqv0aosa.ap-south-1.rds.amazonaws.com',
+                user='admin',
+        password='admin123',
+        database='water'
+        )
+        conn.autocommit(True)
+        total=[]
         with conn.cursor(pymysql.cursors.DictCursor) as cur:
-                #cur.execute('SELECT flow,tnd from water where Total IS NULL ')
-                #x=cur.fetchone()
-                #y=float(x['flow'])
-                #z=y/60
-                #flow_total=round(z,1)
-                #cur.execute('update water set total="'+str(flow_total)+'" where tnd="'+str(x['tnd'])+'"')
-                #cur.execute('update water set total1=''+str(flow_total)+'' where tnd= ''+ str(x['tnd']) +'' ')
-                #cur.execute('SELECT flow from water where created_at=''+ x['created_at'] +'' ')
-                #z=cur.fetchone()
-                total={"total":0}
-                #cur.execute('SELECT tap_id,sum(Total) total from water.water where tnd >="'+str(content['from'])+'" and tnd<="'+str(content['to'])+'" ')
-                cur.execute('SELECT Floor,water.tap_id,sum(Total) total from water.water JOIN water.water1 on(water.tap_id=water1.tap_id) where Floor= "'+ content['Floor']+ '" AND Building= "'+  content['Building']+ '" AND tnd >="' + str(content['from']) + '" AND tnd<="' + str(content['to']) + '" group by tap_id')
+                cur.execute('SELECT Floor,water.tap_id,sum(Total) total from water.water JOIN water.water1 on(water.tap_id=water1.tap_id) where Floor= "'+ content['Flooor']+ '" AND Building= "'+  content['Building']+ '" AND tnd >="' + str(content['from']) + '" AND tnd<="' + str(content['to']) + '" group by tap_id')
                 if cur.rowcount!=0:
                         total= cur.fetchall()
-                #cur.execute('UPDATE  INTO water2 SET total1=  where tap_id=''+y['tap_id ']+'' AND created_at=''+z+'' ')
-
-        payload = {
-        'Total':total
-        }
-        return json.dumps(payload,default=dtSerializer)
+                cur.execute('select tap_id from water.water1 where Floor= "'+ content['Floor']+ '" AND Building= "'+  content['Building']+ '"')
+                tap=cur.fetchall()
+        p1={"Total":total}
+        p={"Total":tap}
+        for i in range(len(p["Total"])):
+            c=0
+            ele1=p["Total"][i]["tap_id"]
+            for j in range(len(p1["Total"])):
+                ele2=p1["Total"][j]["tap_id"]
+ if(ele1==ele2):
+                    c=c+1
+            if(c==0):
+                p1["Total"].append({"Floor":content['Floor'], "tap_id":ele1, "total":0.0})
+        conn.close()
+        return json.dumps(p1,default=dtSerializer)
 @app.route('/buildpage',methods=['GET','POST'])
 def buildpage():
         content=json.loads(request.data)
-        total={"total":0}
+        conn = pymysql.connect(
+        host='water-db.c8iptqv0aosa.ap-south-1.rds.amazonaws.com',
+        user='admin',
+        password='admin123',
+        database='water'
+        )
+        conn.autocommit(True)
+        total=[]
         with conn.cursor(pymysql.cursors.DictCursor) as cur:
-                cur.execute('select Building,sum(Total) total from water.water JOIN water.water1 on(water.tap_id=water1.tap_id) where tnd>="'+str(content['from'])+'" AND tnd<="'+str(content['to'])+'"group by Building')
+                cur.execute('select Building,sum(Total) total from water.water JOIN water.water1 on(water.tap_id=water1.tap_id) where tnd>="'+str(content['from'])+'" AAND tnd<="'+str(content['to'])+'"group by Building')
                 if cur.rowcount!=0:
                         total=cur.fetchall()
+                cur.execute('select Building from water.water1')
+                build=cur.fetchall()
+        p1={"Total":total}
+        p={"Total":build}
+        for i in range(len(p["Total"])):
+            c=0
+            ele1=p["Total"][i]["Building"]
+            for j in range(len(p1["Total"])):
+                ele2=p1["Total"][j]["Building"]
+                if(ele1==ele2):
+                    c=c+1
+            if(c==0):
+                p1["Total"].append({"Building":ele1, "total":0.0})
         payload={
-        'Total':total
-        }
-        return json.dumps(payload,default=dtSerializer)
+                 'Total':total}
+        conn.close()
+        return json.dumps(p1,default=dtSerializer)
 @app.route('/secpage',methods=['GET','POST'])
 def secpage():
         content=json.loads(request.data)
-        total={"total":0}
+        conn = pymysql.connect(
+        host='water-db.c8iptqv0aosa.ap-south-1.rds.amazonaws.com',
+        user='admin',
+        password='admin123',
+        database='water'
+        )
+        conn.autocommit(True)
+        total=[]
         with conn.cursor(pymysql.cursors.DictCursor) as cur:
                 cur.execute('select Building,Floor,sum(Total) total from water.water JOIN water.water1 on(water.tap_id=water1.tap_id) where tnd>="'+str(content['from'])+'" AND tnd<="'+str(content['to'])+'"AND Building="'+content['Building']+'" group by Building,Floor')
                 if cur.rowcount!=0:
                         total=cur.fetchall()
-        payload={
-        'Total':total
-        }
-        return json.dumps(payload,default=dtSerializer)
+                cur.execute('select Floor from water.water1 where Building="'+  content['Building']+ '"')
+                floor=cur.fetchall()
+        p1={"Total":total}
+        p={"Total":floor}
+        for i in range(len(p["Total"])):
+            c=0
+            ele1=p["Total"][i]["Floor"]
+            for j in range(len(p1["Total"])):
+                ele2=p1["Total"][j]["Floor"]
+                if(ele1==ele2):
+                    c=c+1
+            if(c==0):
+                p1["Total"].append({"Building":content['Building'], "Floor":ele1, "total":0.0})
+        conn.close()
+        return json.dumps(p1,default=dtSerializer)
 @app.route('/dropbuild',methods=['GET','POST'])
 def dropbuild():
-        with conn.cursor(pymysql.cursors.DictCursor) as cur:
-                cur.execute('select distinct Building from water.water1')
-                x=cur.fetchall()
-        payload={'Building':x}
-        return json.dumps(payload,default=dtSerializer)
-@app.route('/dropfloor',methods=['GET','POST'])
-def dropfloor():
-        content=json.loads(request.data)
+        conn = pymysql.connect(
+        host='water-db.c8iptqv0aosa.ap-south-1.rds.amazonaws.com',
+        user='admin',
+        password='admin123',
+        database='water'
+        )
+        conn.autocommit(True)
         with conn.cursor(pymysql.cursors.DictCursor) as cur:
                 cur.execute('select Floor from water.water1 where Building="'+str(content['Building'])+'"')
                 x=cur.fetchall()
         payload={'Floor':x}
+        conn.close()
         return json.dumps(payload,default=dtSerializer)
 @app.route('/complaint',methods=['GET','POST'])
 def complaint():
+        content = json.loads(request.data)
+        conn = pymysql.connect(
+        host='water-db.c8iptqv0aosa.ap-south-1.rds.amazonaws.com',
+        user='admin',
+        password='admin123',
+        database='water'
+        )
+        x={"Complaints":""}
         with conn.cursor(pymysql.cursors.DictCursor) as cur:
                 cur.execute('select * from water.water2')
-                x=cur.fetchall()
+                if cur.rowcount!=0:
+                        x=cur.fetchall()
         payload = {'Complaints':x}
-        #cur.close()
+        conn.close()
         return json.dumps(payload,default=dtSerializer)
+
 @app.route('/inscomplaint',methods=['GET','POST'])
 def inscomplaint():
         content = json.loads(request.data)
+        conn = pymysql.connect(
+        host='water-db.c8iptqv0aosa.ap-south-1.rds.amazonaws.com',
+        user='admin',
+        password='admin123',
+        database='water'
+        )
+        conn.autocommit(True)
         with conn.cursor(pymysql.cursors.DictCursor) as cur:
                 cur.execute('insert into water.water2(Building,Floor,location,Complaint) values ("'+str(content['Building'])+'","'+str(content['Floor'])+'","'+str(content['location'])+'","'+str(content['Complaint'])+'")')
-                #cur.execute('select * from water.water2')
-                #x=cur.fetchall()
-        #payload = {'Complaints':''}
-        #return json.dumps(payload,default=dtSerializer)
+        payload = {'Complaints':'asd'}
+        conn.close()
+        return json.dumps(payload,default=dtSerializer)
+
 @app.route('/delcomplaint',methods=['GET','POST'])
 def delcomplaint():
         content = json.loads(request.data)
+        conn = pymysql.connect(
+        host='water-db.c8iptqv0aosa.ap-south-1.rds.amazonaws.com',
+        user='admin',
+        password='admin123',
+        database='water'
+        )
+        conn.autocommit(True)
         if(content['username']=="management"):
                 with conn.cursor(pymysql.cursors.DictCursor) as cur:
-                        cur.execute('delete from water.water2 where Building="'+str(content['Building'])+'" and Floor= "'+str(content['Floor'])+'" and location="'+str(content['location'])+'" and Complaint="'+str(content['Complaint'])+'"')
-                        #cur.execute('select * from water.water2')
-                        #x=cur.fetchall()
+                        cur.execute('delete from water.water2 where Building="'+str(content['Building'])+'" and Floor= "'+str(content['Floor'])+'" and location="'+str($
                 payload={'Complaints':'1'}
                 return json.dumps(payload,default=dtSerializer)
         else:
                 payload={'Complaints':'0'}
                 return json.dumps(payload,default=dtSerializer)
+        conn.close()
 @app.route('/filter',methods=['GET','POST'])
 def filter():
+        conn = pymysql.connect(
+        host='water-db.c8iptqv0aosa.ap-south-1.rds.amazonaws.com',
+        user='admin',
+        password='admin123',
+        database='water'
+        )
+        conn.autocommit(True)
         content=json.loads(request.data)
         with conn.cursor(pymysql.cursors.DictCursor) as cur:
                 cur.execute('select Building,Floor,location,Complaint from water.water2 where Building="'+str(content['Building'])+'"')
                 x=cur.fetchall()
         payload = {'filter':x}
+        conn.close()
         return json.dumps(payload,default=dtSerializer)
 @app.route('/building',methods=['GET','POST'])
 def building():
-        #content=json.loads(request.data)
+        conn = pymysql.connect(
+        host='water-db.c8iptqv0aosa.ap-south-1.rds.amazonaws.com',
+        user='admin',
+        password='admin123',
+        database='water'
+        )
+        conn.autocommit(True)
+        content = json.loads(request.data)
+        x={"Building":""}
         with conn.cursor(pymysql.cursors.DictCursor) as cur:
                 cur.execute('select Building from water.water2 group by Building')
-                x=cur.fetchall()
+                if cur.rowcount!=0:
+                        x=cur.fetchall()
         payload = {'Building':x}
+        conn.close()
         return json.dumps(payload,default=dtSerializer)
+@app.route('/showDelete',methods=['GET','POST'])
+def showDelete():
+        content=json.loads(request.data)
+        if(content['username']=="management"):
+                payload={"Show":1}
+        else:
+                payload={"Show":0}
+        return json.dumps(payload,default=dtSerializer)
+
 if __name__ == '__main__':
         app.run(host='0.0.0.0', debug=True)

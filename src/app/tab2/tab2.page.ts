@@ -48,6 +48,10 @@ export class Tab2Page implements OnInit{
   buildSelect(val: any){
     console.log(val);
     var Building = val;
+    if(Building === "All"){
+      this.displayComplaints();
+    }
+    else{
     this.arrayData = new Array();
     var Building;
     const data = {
@@ -61,7 +65,7 @@ export class Tab2Page implements OnInit{
         this.arrayData = temp.filter;        
         }
       );
-
+    }
   }
 
   buildinglist(){
@@ -69,7 +73,7 @@ export class Tab2Page implements OnInit{
     const data = {
       // Empty payload
      }; 
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/building', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/dropbuild', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -133,7 +137,7 @@ export class Tab2Page implements OnInit{
     console.log('Begin async operation');
     setTimeout(() => {
       console.log('Async operation has ended');
-      this.ngOnInit();
+      this.displayComplaints();
       event.target.complete();
     }, 500);
   }

@@ -1,97 +1,65 @@
-<!-- <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content color="light">
-    <ion-card>
-        <ion-card-content>
-          <form #form="ngForm" (ngSubmit)="register(form)">
-            <ion-item>
-              <ion-label position="floating">Username:</ion-label>
-              <ion-input type="text" required name="username" ngModel></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Email:</ion-label>
-              <ion-input type="email" required name="email" ngModel></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Enter Password:</ion-label>
-              <ion-input type="password" required name="password" ngModel></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Re-enter Password:</ion-label>
-              <ion-input type="password" required name="password" ngModel></ion-input>
-            </ion-item>
-            <div class="ion-padding">
-              <ion-button expand="block" type="submit" class="ion-no-margin" [disabled]="form.invalid" color="dark">
-                Register</ion-button>
-            </div>
-          </form>
-      </ion-card-content>
-    </ion-card>
-</ion-content> -->
-
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Register
-    </ion-title>
-    <ion-buttons slot="start">
+    <ion-buttons>
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-title>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="loginForm" #form="ngForm" (ngSubmit)="register(form)">
+  <ion-grid style="height: 100%">
+    <ion-row justify-content-center align-items-center style="height: 100%">
+      <ion-card>
+        <ion-card-content>
+          <form [formGroup]="loginForm" #form="ngForm" (ngSubmit)="register(form)">
+            <ion-list>
+              <ion-item>
+                <ion-label position="floating">Email:</ion-label>
+                <ion-input formControlName="email" type="text" ngModel></ion-input>
+              </ion-item>
+              <div class="error-message">
+                <ng-container *ngFor="let error of error_messages.email">
+                  <div class="error-message"
+                    *ngIf="loginForm.get('email').hasError(error.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">
+                    {{ error.message }}
+                  </div>
+                </ng-container>
+              </div>
 
-  <ion-card>
-  <ion-list>
+              <ion-item>
+                <ion-label position="floating">Password:</ion-label>
+                <ion-input formControlName="password" type="password" ngModel></ion-input>
+              </ion-item>
+              <div class="error-message">
+                <ng-container *ngFor="let error of error_messages.password">
+                  <div class="error-message"
+                    *ngIf="loginForm.get('password').hasError(error.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+                    {{ error.message }}
+                  </div>
+                </ng-container>
+              </div>
 
-          <!-- <ion-item>
-              <ion-label position="floating">Userame:</ion-label>
-              <ion-input formControlName="username" type="text" ngModel></ion-input>
-            </ion-item>
-            <div class="error-message">
-              <ng-container *ngFor="let error of error_messages.username">
-                <div class="error-message" *ngIf="loginForm.get('username').hasError(error.type) && (loginForm.get('username').dirty || loginForm.get('username').touched)">
-                  {{ error.message }}
-                </div>
-              </ng-container>
-            </div> -->
-          
-      <ion-item>
-        <ion-label position="floating">Email:</ion-label>
-        <ion-input formControlName="email" type="text" ngModel></ion-input>
-      </ion-item>
-      <div class="error-message">
-        <ng-container *ngFor="let error of error_messages.email">
-          <div class="error-message" *ngIf="loginForm.get('email').hasError(error.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">
-            {{ error.message }}
-          </div>
-        </ng-container>
-      </div>
-
-      <ion-item>
-        <ion-label position="floating">Password:</ion-label>
-        <ion-input formControlName="password" type="password" ngModel></ion-input>
-      </ion-item>
-      <div class="error-message">
-        <ng-container *ngFor="let error of error_messages.password">
-          <div class="error-message" *ngIf="loginForm.get('password').hasError(error.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
-            {{ error.message }}
-          </div>
-        </ng-container>
-      </div>
-      
-      <br>
-      <ion-button type="submit" [disabled]="!loginForm.valid" expand="block" (click)="register(form)">Register</ion-button>           
-    </ion-list>
-  </ion-card>
-  </form>
-  </ion-content>
+              <ion-item>
+                <ion-label position="floating">Confirm Password:</ion-label>
+                <ion-input formControlName="confirmpassword" type="password" ngModel></ion-input>
+              </ion-item>
+              <div class="error-message">
+                <ng-container *ngFor="let error of error_messages.confirmpassword">
+                  <div class="error-message"
+                    *ngIf="loginForm.get('confirmpassword').hasError(error.type) && (loginForm.get('confirmpassword').dirty || loginForm.get('confirmpassword').touched)">
+                    {{ error.message }}
+                    <!-- <div *ngIf="loginForm.get('confirmpassword').error['compare']">Passwords do not match</div> -->
+                  </div>
+                </ng-container>
+              </div>
+              <br>
+              <ion-button type="submit" [disabled]="!loginForm.valid" expand="block" (click)="register(form)">Register</ion-button>
+            </ion-list>
+          </form>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
+</ion-content>

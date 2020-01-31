@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HasRoleDirective } from './has-role.directive';
+import { CompareValidatorDirective } from './compare-validator.directive';
 
 
 

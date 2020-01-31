@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Data, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { NavController, PopoverController } from '@ionic/angular';
+import { NavController, PopoverController, LoadingController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Storage } from '@ionic/storage';
 import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
@@ -14,18 +14,19 @@ import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
 })
 export class Tab1Page implements OnInit{
 
+
   arrayData: Array<Data>;
   user: any;
   AccessToken: any;
 
   constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
-    private authService: AuthService, private storage: Storage,private popover: PopoverController) {};
-
+    private authService: AuthService, private storage: Storage,private popover: PopoverController,private loading: LoadingController) {};
     
   ngOnInit(){
-    this.storage.get('AccessToken').then((val) => {
-      this.AccessToken = val;
-    });
+    this.displayBuildings();
+  }
+
+  displayBuildings(){
     this.arrayData = new Array();
     let date1 = new Date();
     let date2 = new Date();
@@ -38,6 +39,8 @@ export class Tab1Page implements OnInit{
     from = from.replace(" "," 00:00:00")
     console.log("From: " + from)
     console.log("To: " + to);
+    // const from = "2020-01-10 00:00:00";
+    // const to = "2020-01-10 14:11:38"
     const data = {
       from,
       to // This adds it to the payload

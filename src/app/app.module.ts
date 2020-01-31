@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -15,12 +15,14 @@ import { Tab1Page } from './tab1/tab1.page';
 import { FloorsPage } from './tab1/floors/floors.page';
 import { IonicStorageModule } from '@ionic/storage';
 import { AppPopOverComponent } from './app-pop-over/app-pop-over.component';
+import { CompareValidatorDirective } from './directives/compare-validator.directive';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,CompareValidatorDirective],
   entryComponents: [],
   imports: [BrowserModule,
+    FormsModule,
     IonicModule.forRoot(), 
     AppRoutingModule,
     HttpModule,

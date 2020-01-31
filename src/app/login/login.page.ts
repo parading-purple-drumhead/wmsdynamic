@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController, AlertController, LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 
 
@@ -13,8 +13,10 @@ import { Storage } from '@ionic/storage';
 })
 export class LoginPage implements OnInit{
 
+  isLoading = false;
+
   constructor(private http: HttpClient,private router:Router, private authService: AuthService, private navCtrl: NavController,
-    private storage: Storage, private alert: AlertController) { }
+    private storage: Storage, private alert: AlertController, private loading: LoadingController) { }
   
   authenticated = false;
   loginForm: boolean;
@@ -27,8 +29,7 @@ export class LoginPage implements OnInit{
     });
   }
 
-  goToNextPage()
-  {
+  goToNextPage(){
     this.router.navigate(['/register']);
   }
 
@@ -47,14 +48,13 @@ export class LoginPage implements OnInit{
     const data={username,password};
     this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/login',data,{responseType:'text'}).subscribe(
       rdata=>{
-        console.log(rdata);
         if(rdata.indexOf('AccessToken') !== -1)
         {
           let temp = JSON.parse(rdata);
           const AccessToken = temp.AccessToken;
           console.log(AccessToken);
           this.storage.set('AccessToken', AccessToken);
-          this.goToBuildPage(username);          
+          this.goToBuildPage(username);      
         }
         else{
           console.log(rdata);
