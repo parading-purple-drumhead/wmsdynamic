@@ -20,23 +20,46 @@ export class Tab2Page implements OnInit{
   buildNames: Array<Data>
   delArray: Array<String>
   username: string;
+  building: any;
+  showuser: any;
 
   ngOnInit(){
     this.storage.get('user').then((val) => {
+      console.log(val)
       this.username = val;
-      console.log('Your type is', this.username);
+      console.log('Username:', this.username);
+      this.showDelete(this.username);
     });
     this.buildinglist();
     this.displayComplaints();
   }
 
+  showDelete(username){
+    console.log (username);
+    const data = {
+      username
+    }
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/showDelete',data,{responseType: 'text'}).subscribe(
+      rdata => {
+        console.log(rdata);
+        let temp = JSON.parse(rdata);
+        console.log(temp.Show)
+        if(temp.Show === 1){
+          this.showuser = true;
+        }
+        else{
+          this.showuser = false;
+        }
+      }
+    )
+  }
+
   displayComplaints(){
-    console.log("Function called");
     this.arrayData = new Array();
     const data = { 
       //Empty payload
     }; 
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/complaint', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/complaint', data, {responseType: 'text'}).subscribe(
       rdata => {
         console.log(rdata);
         let temp = JSON.parse(rdata);
@@ -47,7 +70,8 @@ export class Tab2Page implements OnInit{
 
   buildSelect(val: any){
     console.log(val);
-    var Building = val;
+    this.building = val;
+    var Building = this.building;
     if(Building === "All"){
       this.displayComplaints();
     }
@@ -57,7 +81,7 @@ export class Tab2Page implements OnInit{
     const data = {
       Building,// This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/filter', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/filter', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -73,7 +97,7 @@ export class Tab2Page implements OnInit{
     const data = {
       // Empty payload
      }; 
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/dropbuild', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/dropbuild', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -98,7 +122,7 @@ export class Tab2Page implements OnInit{
       Complaint,
       username // This adds it to the payload
      }; 
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -137,7 +161,7 @@ export class Tab2Page implements OnInit{
     console.log('Begin async operation');
     setTimeout(() => {
       console.log('Async operation has ended');
-      this.displayComplaints();
+      this.buildSelect(this.building);
       event.target.complete();
     }, 500);
   }

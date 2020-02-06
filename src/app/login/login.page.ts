@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../services/auth.service';
 import { NavController, AlertController, LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-
 
 @Component({
   selector: 'app-home',
@@ -14,29 +12,33 @@ import { Storage } from '@ionic/storage';
 export class LoginPage implements OnInit{
 
   isLoading = false;
+  // loading: any;
 
-  constructor(private http: HttpClient,private router:Router, private authService: AuthService, private navCtrl: NavController,
-    private storage: Storage, private alert: AlertController, private loading: LoadingController) { }
+  constructor(private http: HttpClient,private router:Router, private navCtrl: NavController,
+    private storage: Storage, private alert: AlertController, private loadingCtrl: LoadingController) {}
   
   authenticated = false;
   loginForm: boolean;
   error: string;
   username: string;
 
-  ngOnInit(){
-    this.authService.getUserSubject().subscribe(authState => {
-      this.authenticated = authState? true:false;
-    });
-  }
+  ngOnInit(){}
 
   goToNextPage(){
     this.router.navigate(['/register']);
   }
 
   goToBuildPage(x){
-    var username = x;
-    this.authService.login(username);
+    this.loadingCtrl.dismiss();
     this.navCtrl.navigateRoot('tabs/tab1');
+  }
+
+  async loadingScreen(){
+    const loading = await this.loadingCtrl.create({
+      message: 'Logging in...'
+    });
+
+    await loading.present();
   }
 
   login(form)
@@ -46,7 +48,8 @@ export class LoginPage implements OnInit{
     const password=form.value.password;
     console.log(username,password);
     const data={username,password};
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/login',data,{responseType:'text'}).subscribe(
+    this.loadingScreen();
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/login',data,{responseType:'text'}).subscribe(
       rdata=>{
         if(rdata.indexOf('AccessToken') !== -1)
         {
@@ -57,6 +60,7 @@ export class LoginPage implements OnInit{
           this.goToBuildPage(username);      
         }
         else{
+          this.loadingCtrl.dismiss();
           console.log(rdata);
           this.error=rdata;
           this.errorAlert(this.error);

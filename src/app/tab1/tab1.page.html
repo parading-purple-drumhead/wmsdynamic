@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar mode="ios" color="light">
+  <ion-toolbar mode="ios">
     <ion-title>
       Buildings
     </ion-title>
@@ -11,18 +11,36 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="light">
+<ion-content color="light" padding>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-    <div *ngFor="let i of arrayData" >
-        <ion-card (click)="openFloors(i.Building)" color="primary">
-          <ion-card-header>
+
+  <div *ngFor="let i of arrayData">
+    <ion-card (click)="openFloors(i.Building)">
+      <ion-card-content>
+        <ion-row>
+          <ion-col size="3">
             {{i.Building}}
-          </ion-card-header>
-          <ion-card-content>
-            Consumption: {{i.total.toFixed(2)}} Litres
-          </ion-card-content>
-        </ion-card>
-    </div>
+          </ion-col>
+            <ion-col size="3" offset="6">
+            {{i.total.toFixed(2)}} L
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    <br>
+  </div>
+  <!-- <ion-card (click)="openFloors(i.Building)">
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="3">
+          UB
+        </ion-col>
+          <ion-col size="3" offset="6">
+          0.00 L
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card> -->
 </ion-content>

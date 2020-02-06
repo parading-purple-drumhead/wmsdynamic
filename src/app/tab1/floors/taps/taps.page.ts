@@ -35,6 +35,8 @@ export class TapsPage implements OnInit {
     private popover: PopoverController, private storage: Storage) { }
 
   ngOnInit() {
+    var from = '';
+    var to = '';
     this.getBuilding = this.activeRoute.snapshot.paramMap.get("building");
     console.log(this.getBuilding);
     this.storage.set('buildingTaps', this.getBuilding);
@@ -46,32 +48,31 @@ export class TapsPage implements OnInit {
     this.storage.set('floorTaps',this.getFloor);
     this.storage.get('floorTaps').then((floor) => {
       this.Floor = floor;
+      this.displayTaps(this.Building,this.Floor,from,to);
     });
-    let date1 = new Date();
-    let date2 = new Date();
-    var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
-    var to = new Date(date2.getTime() - date2.getTimezoneOffset()*60000).toISOString(); //This generates the new date
-    to = to.replace("T"," ");
-    to = to.substr(0, to.length - 5);
-    from = from.replace("T"," ");
-    from = from.substr(0, from.length - 13);
-    from = from.replace(" "," 00:00:00")
-    this.displayTaps(from,to,this.Building,this.Floor);
+    // let date1 = new Date();
+    // let date2 = new Date();
+    // var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
+    // var to = new Date(date2.getTime() - date2.getTimezoneOffset()*60000).toISOString(); //This generates the new date
+    // to = to.replace("T"," ");
+    // to = to.substr(0, to.length - 5);
+    // from = from.replace("T"," ");
+    // from = from.substr(0, from.length - 13);
+    // from = from.replace(" "," 00:00:00")
   }
 
-  displayTaps(from,to,Building,Floor){
+  displayTaps(Building,Floor,from,to){
     this.arrayData = new Array();
     this.test1 = new Array();
     this.test2 = new Array();
-    console.log("From: " + from);
-    console.log("To: " + to);
     const data = {
-      from,
-      to,
       Building,
-      Floor // This adds it to the payload
-     }; 
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/getDetails', data, {responseType: 'text'}).subscribe(
+      Floor,
+      from,
+      to // This adds it to the payload
+     };
+     console.log(data);
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/getDetails', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -134,7 +135,7 @@ export class TapsPage implements OnInit {
     to = to.replace("T"," ");
     to = to.substr(0, to.length-5);
     console.log("To:",to);
-    this.displayTaps(from,to,this.Building,this.Floor);
+    this.displayTaps(this.Building,this.Floor,from,to);
   }
 
   doRefresh(event) {

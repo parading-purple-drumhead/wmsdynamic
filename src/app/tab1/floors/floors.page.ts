@@ -33,25 +33,26 @@ export class FloorsPage implements OnInit {
   }
 
   ngOnInit() {
+    var from = '',to = '';
     this.getValue = this.activeRoute.snapshot.paramMap.get("building");
     console.log(this.getValue);
     this.storage.set('buildingFloors', this.getValue);
     this.storage.get('buildingFloors').then((building) => {
       this.Building = building;
+      this.displayFloors(this.Building,from,to);
     });
-    let date1 = new Date();
-    let date2 = new Date();
-    var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
-    var to = new Date(date2.getTime() - date2.getTimezoneOffset()*60000).toISOString(); //This generates the new date
-    from = from.replace("T"," ");
-    from = from.substr(0, from.length - 13);
-    from = from.replace(" "," 00:00:00");
-    to = to.replace("T"," ");
-    to = to.substr(0, to.length - 5);
-    this.displayFloors(from,to,this.Building);
+    // let date1 = new Date();
+    // let date2 = new Date();
+    // var from = new Date(date1.getTime() - date1.getTimezoneOffset()*60000).toISOString();
+    // var to = new Date(date2.getTime() - date2.getTimezoneOffset()*60000).toISOString(); //This generates the new date
+    // from = from.replace("T"," ");
+    // from = from.substr(0, from.length - 13);
+    // from = from.replace(" "," 00:00:00");
+    // to = to.replace("T"," ");
+    // to = to.substr(0, to.length - 5);
   }
 
-  displayFloors(from,to,Building){
+  displayFloors(Building,from,to){
     this.arrayData = new Array();
     this.test1 = new Array();
     this.test2 = new Array();
@@ -59,8 +60,9 @@ export class FloorsPage implements OnInit {
       from,
       to,
       Building // This adds it to the payload
-     }; 
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/secpage', data, {responseType: 'text'}).subscribe(
+     };
+     console.log(data); 
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/secpage', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
@@ -97,6 +99,16 @@ export class FloorsPage implements OnInit {
           yAxes: [{
             ticks: {
               beginAtZero: true
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Consumption'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Floors'
             }
           }]
         }
@@ -113,7 +125,7 @@ export class FloorsPage implements OnInit {
     to = to.replace("T"," ");
     to = to.substr(0, to.length-5);
     console.log("To:",to);
-    this.displayFloors(from,to,this.Building);
+    this.displayFloors(this.Building,from,to);
   }
 
   openTaps(x,y){
