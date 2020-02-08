@@ -14,7 +14,9 @@ import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
 export class Tab2Page implements OnInit{
 
   constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
-    private authService: AuthService, private storage: Storage, private alert: AlertController, private popover: PopoverController) {}
+    private authService: AuthService, private storage: Storage, private alert: AlertController, private popover: PopoverController) {
+      this.building = "All"
+    }
 
   arrayData: Array<Data>
   buildNames: Array<Data>

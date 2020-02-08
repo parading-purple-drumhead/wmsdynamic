@@ -1,25 +1,31 @@
-<ion-content color="light">
-  <ion-grid style="height: 100%">
-    <ion-row justify-content-center align-items-center style="height: 100%">
-      <ion-card>
-        <ion-card-content>
-         <form #form="ngForm" (ngSubmit)="login(form)">
-           <ion-item>
-             <ion-label position="floating">Username:</ion-label>
-             <ion-input type="text" required name="username" ngModel></ion-input>
-           </ion-item>
-           <ion-item>
-             <ion-label position="floating">Password:</ion-label>
-             <ion-input type="password" required name="password" ngModel></ion-input>
-           </ion-item>
-           <div class="ion-padding">
-             <ion-button expand="block" type="submit" class="ion-no-margin" [disabled]="form.invalid" color="success">
-               Login</ion-button>
-           <ion-button expand="block" color="secondary" (click)="goToNextPage()">Register</ion-button></div>
-           <div style="text-decoration:underline;color:red" (click)="forgotPassword()">Forgot Password?</div>
-         </form>
-        </ion-card-content>
-       </ion-card>
+<ion-content>
+  <ion-grid>
+    <ion-row id="logo">
+      <img src="../../assets/logo.png" height="150px" width="150px">
+    </ion-row>
+    <ion-row id="loginForm">
+      <form #form="ngForm" (ngSubmit)="login(form)">
+        <br>
+        <ion-item>
+          <!-- <ion-label position="floating">Username:</ion-label> -->
+          <ion-input type="text" required name="username" placeholder="Email:" ngModel></ion-input>
+        </ion-item>
+        <br>
+        <ion-item>
+          <!-- <ion-label position="floating">Password:</ion-label> -->
+          <ion-input type="password" required name="password" placeholder="Password" ngModel></ion-input>
+        </ion-item>
+        <br><br>
+        <div>
+          <ion-button expand="block" type="submit" class="ion-no-margin" [disabled]="form.invalid" color="primary">
+            Login</ion-button>
+            <br>
+          <ion-button expand="block" color="primary" (click)="goToNextPage()">Register</ion-button>
+        </div>
+        <br>
+        <div style="text-decoration:underline;color:grey;text-align: center;" (click)="forgotPassword()">Forgot Password?</div>
+      </form>
+
     </ion-row>
   </ion-grid>
 </ion-content>
