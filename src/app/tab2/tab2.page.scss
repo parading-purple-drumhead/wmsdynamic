@@ -20,6 +20,7 @@ ion-card{
 
 #buildingName{
     font-size: 30px;
+    align-self: center;
 }
 
 #complaintContents{
@@ -29,4 +30,19 @@ ion-card{
 ion-col{
     padding-left: 0px;
     padding-right: 0px;
+}
+
+#emptyPage{
+    justify-content: center;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: center;
+}
+
+ion-grid{
+    height: 100%;
+    width: 100%;
+    display: flex; 
+    flex-flow: column; 
+    padding: 0px;
 }
