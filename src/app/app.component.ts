@@ -58,7 +58,22 @@ export class AppComponent implements OnDestroy {
         else if(this.router.url==='/forgotpw')
         { await this.router.navigate(['/login']);
 
-        } 
+        }
+        else if(this.router.url==='/otppage')
+        { await this.router.navigate(['/login']);
+
+        }
+        
+        else if (this.router.url === '/login') {
+          if (new Date().getTime() - this.lastTimeBackPress >= this.timePeriodToExit) {
+            this.lastTimeBackPress = new Date().getTime();
+            this.presentAlertConfirm();
+          }
+          else {
+            navigator['app'].exitApp();
+          }
+        }
+        
         else if (this.router.url === '/tabs/tab1') {
           if (new Date().getTime() - this.lastTimeBackPress >= this.timePeriodToExit) {
             this.lastTimeBackPress = new Date().getTime();
