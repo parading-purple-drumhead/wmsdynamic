@@ -4,6 +4,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
+
+// import { timer } from 'rxjs/observable/timer';
 const { Toast } = Plugins;
 
 @Component({
@@ -16,6 +18,10 @@ export class AppComponent implements OnDestroy {
   @ViewChildren(IonRouterOutlet) routerOutlets: QueryList<IonRouterOutlet>;
   lastTimeBackPress = 0;
   timePeriodToExit = 2000;
+
+
+
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -24,6 +30,12 @@ export class AppComponent implements OnDestroy {
     public router: Router,
   ) {
     this.initializeApp();
+    this.platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
+    });
   }
 
   initializeApp() {
@@ -31,54 +43,70 @@ export class AppComponent implements OnDestroy {
       this.statusBar.styleDefault();
       this.backButtonEvent();
       this.splashScreen.hide();
+      
     });
   }
 
+ 
+
   backButtonEvent() {
-    this.backButtonSubscription = this.platform.backButton.subscribe(async () => {
-      this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
-        if (outlet && outlet.canGoBack()) {
-          outlet.pop();
-        } else if (this.router.url === "/home") {
-          // this.presentAlertConfirm();
-          if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
-            navigator['app'].exitApp();
-          } else {
-            this.showToast('Press back again to exit App.');
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      this.routerOutlets.forEach(async(outlet: IonRouterOutlet) => {
+        if (this.router.url === '/register') {
+          await this.router.navigate(['/login']);
+        }
+        else if(this.router.url==='/forgotpw')
+        { await this.router.navigate(['/login']);
+
+        } 
+        else if (this.router.url === '/tabs/tab1') {
+          if (new Date().getTime() - this.lastTimeBackPress >= this.timePeriodToExit) {
             this.lastTimeBackPress = new Date().getTime();
+            this.presentAlertConfirm();
+          }
+          else {
+            navigator['app'].exitApp();
+          }
+        }
+        else if (this.router.url === '/tabs/tab2') {
+          if (new Date().getTime() - this.lastTimeBackPress >= this.timePeriodToExit) {
+            this.lastTimeBackPress = new Date().getTime();
+            this.presentAlertConfirm();
+          }
+          else {
+            navigator['app'].exitApp();
+          }
+        }
+        else if (this.router.url === '/tabs/tab3') {
+          if (new Date().getTime() - this.lastTimeBackPress >= this.timePeriodToExit) {
+            this.lastTimeBackPress = new Date().getTime();
+            this.presentAlertConfirm();
+          }
+          else {
+            navigator['app'].exitApp();
           }
         }
       });
     });
   }
-  async showToast(msg) {
-    await Toast.show({
-      text: msg
-    });
-  }
-
-
+  
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
-      header: 'Confirm!',
-      message: 'Confirm to Exit App !!!',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            console.log('Confirm Cancel: blah');
-          }
-        }, {
-          text: 'Exit',
-          handler: () => {
-            console.log('Confirm Okay');
-            navigator["app"].exitApp();
-          }
+      // header: 'Confirm!',
+      message: 'Are you sure you want to exit the app?',
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: (blah) => {}
+      }, {
+        text: 'Close App',
+        handler: () => {
+          navigator['app'].exitApp();
         }
-      ]
+      }]
     });
+  
     await alert.present();
   }
 
