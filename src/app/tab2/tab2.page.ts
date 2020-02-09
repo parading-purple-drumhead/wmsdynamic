@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, Data } from '@angular/router';
-import { NavController,AlertController, PopoverController } from '@ionic/angular';
+import { NavController, AlertController, PopoverController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Storage } from '@ionic/storage';
 import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
@@ -11,12 +11,12 @@ import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page implements OnInit{
+export class Tab2Page implements OnInit {
 
-  constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
+  constructor(private http: HttpClient, private router: Router, public navCtrl: NavController, public activeRoute: ActivatedRoute,
     private authService: AuthService, private storage: Storage, private alert: AlertController, private popover: PopoverController) {
-      this.building = "All"
-    }
+    this.building = "All"
+  }
 
   arrayData: Array<Data>
   buildNames: Array<Data>
@@ -24,8 +24,9 @@ export class Tab2Page implements OnInit{
   username: string;
   building: any;
   showuser: any;
+  empty: any;
 
-  ngOnInit(){
+  ngOnInit() {
     this.storage.get('user').then((val) => {
       console.log(val)
       this.username = val;
@@ -34,129 +35,136 @@ export class Tab2Page implements OnInit{
     });
     this.buildinglist();
     this.displayComplaints();
+    this.empty = 1;
   }
 
-  showDelete(username){
-    console.log (username);
+  showDelete(username) {
+    console.log(username);
     const data = {
       username
     }
-    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/showDelete',data,{responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/showDelete', data, { responseType: 'text' }).subscribe(
       rdata => {
         console.log(rdata);
         let temp = JSON.parse(rdata);
         console.log(temp.Show)
-        if(temp.Show === 1){
+        if (temp.Show === 1) {
           this.showuser = true;
         }
-        else{
+        else {
           this.showuser = false;
         }
       }
     )
   }
 
-  displayComplaints(){
+  displayComplaints() {
     this.arrayData = new Array();
-    const data = { 
+    const data = {
       //Empty payload
-    }; 
-    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/complaint', data, {responseType: 'text'}).subscribe(
+    };
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/complaint', data, { responseType: 'text' }).subscribe(
       rdata => {
         console.log(rdata);
         let temp = JSON.parse(rdata);
-        this.arrayData = temp.Complaints;        
+        if(temp.Complaints.Complaints === ''){
+          this.empty = 1;
         }
-      );
+        else if (temp.Complaints.Complaints !== ''){
+          this.empty = 0;
+          this.arrayData = temp.Complaints;
+        }
+      }
+    );
   }
 
-  buildSelect(val: any){
+  buildSelect(val: any) {
     console.log(val);
     this.building = val;
     var Building = this.building;
-    if(Building === "All"){
+    if (Building === "All") {
       this.displayComplaints();
     }
-    else{
-    this.arrayData = new Array();
-    var Building;
-    const data = {
-      Building,// This adds it to the payload
-     }; 
-    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/filter', data, {responseType: 'text'}).subscribe(
-    
-      rdata => {
-        console.log(rdata);
-        let temp = JSON.parse(rdata);
-        this.arrayData = temp.filter;        
+    else {
+      this.arrayData = new Array();
+      var Building;
+      const data = {
+        Building,// This adds it to the payload
+      };
+      this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/filter', data, { responseType: 'text' }).subscribe(
+
+        rdata => {
+          console.log(rdata);
+          let temp = JSON.parse(rdata);
+          this.arrayData = temp.filter;
         }
       );
     }
   }
 
-  buildinglist(){
+  buildinglist() {
     this.buildNames = new Array();
     const data = {
       // Empty payload
-     }; 
-    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/dropbuild', data, {responseType: 'text'}).subscribe(
-    
+    };
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/dropbuild', data, { responseType: 'text' }).subscribe(
+
       rdata => {
         console.log(rdata);
         let temp = JSON.parse(rdata);
-        this.buildNames = temp.Building;        
-        }
-      );
+        this.buildNames = temp.Building;
+      }
+    );
   }
 
-  del(a,b,c,d){
+  del(a, b, c, d) {
     this.delArray = new Array();
     var Building = a;
     var Floor = b;
     var location = c;
     var Complaint = d;
     const username = this.username;
-    console.log(a,b,c,d,username);
+    console.log(a, b, c, d, username);
     const comp = {
       Building,
       Floor,
       location,
       Complaint,
       username // This adds it to the payload
-     }; 
-    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp, {responseType: 'text'}).subscribe(
-    
+    };
+    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp, { responseType: 'text' }).subscribe(
+
       rdata => {
         console.log(rdata);
         let temp = JSON.parse(rdata);
         this.delArray = temp.Complaints;
-        if(this.delArray[0] === '0'){
+        if (this.delArray[0] === '0') {
           this.errorAlert();
         }
-        else if (this.delArray[0] === '1'){
-          this.displayComplaints();          
-        }     
+        else if (this.delArray[0] === '1') {
+          this.displayComplaints();
+        }
       }
     );
   }
 
-  addcomp(){
+  addcomp() {
     this.router.navigate(['/compform']);
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
     this.navCtrl.navigateRoot('/login');
   }
 
   async errorAlert() {
-      const alert = await this.alert.create({
-        header: 'Access Denied',
-        message: 'Sorry, you do not have access to delete complaints',
-        buttons: ['OK']
-      });
-  
-      await alert.present();
+    const alert = await this.alert.create({
+      header: 'Access Denied',
+      message: 'Sorry, you do not have access to delete complaints',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
   doRefresh(event) {
@@ -168,7 +176,7 @@ export class Tab2Page implements OnInit{
     }, 500);
   }
 
-  async openPopOver(event){
+  async openPopOver(event) {
     const popover = await this.popover.create({
       component: AppPopOverComponent,
       event
