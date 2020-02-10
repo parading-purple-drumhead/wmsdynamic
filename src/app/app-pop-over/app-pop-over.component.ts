@@ -37,6 +37,7 @@ export class AppPopOverComponent implements OnInit {
         console.log(rdata);
       }
     )
+    this.storage.set('isLoggedIn',false);
     this.navCtrl.navigateRoot('/login');
     this.popover.dismiss();
   }

@@ -12,7 +12,6 @@ import { Storage } from '@ionic/storage';
 export class LoginPage implements OnInit{
 
   isLoading = false;
-  // loading: any;
 
   constructor(private http: HttpClient,private router:Router, private navCtrl: NavController,
     private storage: Storage, private alert: AlertController, private loadingCtrl: LoadingController) {}
@@ -24,6 +23,12 @@ export class LoginPage implements OnInit{
 
   ngOnInit(){
     this.storage.set('inApp',false);
+    this.storage.get('isLoggedIn').then((val) => {
+      if (val) {
+        this.router.navigate(['/tabs/tab1']);
+      }
+    });
+
   }
 
   goToNextPage(){
@@ -62,6 +67,7 @@ export class LoginPage implements OnInit{
           this.storage.set('AccessToken', AccessToken);
           this.storage.set('RefreshToken',RefreshToken);
           this.storage.set('inApp',true);
+          this.storage.set('isLoggedIn',true);
           this.goToBuildPage(username);      
         }
         else{

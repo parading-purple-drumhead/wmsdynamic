@@ -23,8 +23,8 @@ export class AuthGuardService implements CanActivate {
             window.location.reload();
             resolve(false);
           }
-        })
+        });
       }
-    }))
+    }));
   }
 }
