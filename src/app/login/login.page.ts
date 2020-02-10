@@ -22,7 +22,9 @@ export class LoginPage implements OnInit{
   error: string;
   username: string;
 
-  ngOnInit(){}
+  ngOnInit(){
+    this.storage.set('inApp',false);
+  }
 
   goToNextPage(){
     this.router.navigate(['/register']);
@@ -55,8 +57,11 @@ export class LoginPage implements OnInit{
         {
           let temp = JSON.parse(rdata);
           const AccessToken = temp.AccessToken;
+          const RefreshToken = temp.RefreshToken;
           console.log(AccessToken);
           this.storage.set('AccessToken', AccessToken);
+          this.storage.set('RefreshToken',RefreshToken);
+          this.storage.set('inApp',true);
           this.goToBuildPage(username);      
         }
         else{

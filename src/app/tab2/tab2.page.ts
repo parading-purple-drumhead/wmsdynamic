@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, Data } from '@angular/router';
 import { NavController, AlertController, PopoverController } from '@ionic/angular';
-import { AuthService } from '../services/auth.service';
 import { Storage } from '@ionic/storage';
 import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
 
@@ -14,7 +13,7 @@ import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
 export class Tab2Page implements OnInit {
 
   constructor(private http: HttpClient, private router: Router, public navCtrl: NavController, public activeRoute: ActivatedRoute,
-    private authService: AuthService, private storage: Storage, private alert: AlertController, private popover: PopoverController) {
+     private storage: Storage, private alert: AlertController, private popover: PopoverController) {
     this.building = "All"
   }
 
@@ -153,7 +152,6 @@ export class Tab2Page implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
     this.navCtrl.navigateRoot('/login');
   }
 

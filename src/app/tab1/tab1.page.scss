@@ -1,12 +1,3 @@
-#consumption{
-  float: right;
-}
-
-// ion-toolbar{
-//   --ion-toolbar-background: #0047ab;
-//   --ion-toolbar-color: whitesmoke;
-// }
-
 ion-card{
   padding-top: 15px;
   height: 92px;
@@ -19,4 +10,9 @@ ion-card-content{
   font-size: 22px;
   font-weight: 600;
   font-family: 'Montserrat',sans-serif;
+}
+
+ion-grid{
+  height: 100%;
+  width: 100%;
 }
