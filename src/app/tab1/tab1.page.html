@@ -12,11 +12,10 @@
 </ion-header>
 
 <ion-content color="light">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-grid>
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-
     <div *ngFor="let i of arrayData">
       <ion-card (click)="openFloors(i.Building)">
         <ion-card-content>

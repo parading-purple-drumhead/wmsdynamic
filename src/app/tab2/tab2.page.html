@@ -12,10 +12,10 @@
 </ion-header>
 
 <ion-content color="light">
-  <ion-grid>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-grid>
   <ion-item>
     <ion-select [(ngModel)]="building" (ngModelChange)="buildSelect($event)" name="Building"
       placeholder="Select Building">
