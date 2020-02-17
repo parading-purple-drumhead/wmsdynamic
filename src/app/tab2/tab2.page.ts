@@ -90,12 +90,18 @@ export class Tab2Page implements OnInit {
       const data = {
         Building,// This adds it to the payload
       };
-      this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/filter', data, { responseType: 'text' }).subscribe(
+      this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/filter', data, { responseType: 'text' }).subscribe(
 
         rdata => {
           console.log(rdata);
           let temp = JSON.parse(rdata);
-          this.arrayData = temp.filter;
+          if(temp.filter.Complaints === ''){
+            this.empty = 1;
+          }
+          else if (temp.Complaints.Complaints !== ''){
+            this.empty = 0;
+            this.arrayData = temp.filter;
+          }
         }
       );
     }
@@ -106,7 +112,7 @@ export class Tab2Page implements OnInit {
     const data = {
       // Empty payload
     };
-    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/dropbuild', data, { responseType: 'text' }).subscribe(
+    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/dropbuild', data, { responseType: 'text' }).subscribe(
 
       rdata => {
         console.log(rdata);
@@ -131,7 +137,7 @@ export class Tab2Page implements OnInit {
       Complaint,
       username // This adds it to the payload
     };
-    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp, { responseType: 'text' }).subscribe(
+    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/delcomplaint', comp, { responseType: 'text' }).subscribe(
 
       rdata => {
         console.log(rdata);
