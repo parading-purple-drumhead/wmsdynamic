@@ -115,7 +115,7 @@ export class AppComponent implements OnDestroy {
         cssClass: 'secondary',
         handler: (blah) => {}
       }, {
-        text: 'Close App',
+        text: 'Ok',
         handler: () => {
           navigator['app'].exitApp();
         }
