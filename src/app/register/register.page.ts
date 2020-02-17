@@ -70,7 +70,6 @@ export class RegisterPage implements OnInit {
       email,
       password,
     };
-<<<<<<< HEAD
     console.log(data);
     this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/signup', data, { responseType: 'text' }).subscribe(
       rdata => {
@@ -82,40 +81,8 @@ export class RegisterPage implements OnInit {
         else{
           this.error = rdata;
           alert(this.error);
-=======
-    if(password==confirmpassword){
-      console.log(data);
-      this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/signup', data, { responseType: 'text' }).subscribe(
-        rdata => {
-          console.log(rdata);
-          if (rdata === 'True') {
-           alert("Registered Successfully");
-           this.router.navigate(['/login']);
-          } else {
-            console.log(rdata);
-            this.error = rdata;
-            alert(this.error);
->>>>>>> d2dda332e014a86f6185075d34cf802885d8dd37
         }
       },
     );
   }
-<<<<<<< HEAD
 }
-=======
-  else
-  this.passalert();
-}
-
-async passalert(){
-  const alert = await this.alert.create({
-    header: 'Login Failed',
-    message: 'Password is not the same as Confirm Password',
-    buttons: ['OK']
-  });
-
-  await alert.present();
- }
-}
-
->>>>>>> d2dda332e014a86f6185075d34cf802885d8dd37
