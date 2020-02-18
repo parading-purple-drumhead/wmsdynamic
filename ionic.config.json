@@ -1,7 +1,8 @@
 {
   "name": "wmsdynamic",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="light">
+  <ion-toolbar mode="ios">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -43,6 +43,6 @@
     </ion-card-content>
   </ion-card>
   <ion-list *ngFor="let i of arrayData">
-   <ion-item><ion-col>Tap {{i.tap_id}}</ion-col><ion-col>{{i.total}} Litres</ion-col></ion-item>
+   <ion-item><ion-col>Tap {{i.tap_id}}</ion-col><ion-col>{{i.total.toFixed(2)}} Litres</ion-col></ion-item>
   </ion-list>
 </ion-content>

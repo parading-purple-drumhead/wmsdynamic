@@ -1,3 +1,35 @@
-ion-card{
-    background-color: white;
+#logo{
+    background: #3880ff;
+    justify-content: center;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: center;
 }
+
+#loginForm{
+    background: #ffffff;
+    flex-grow: 1;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+ion-grid{
+    background-color: #3880ff; 
+    height: 100%;
+    width: 100%;
+    display: flex; 
+    flex-flow: column; 
+    padding: 0px;
+}
+
+ion-row{
+    width: 100%;
+    padding: 0px 0px 0px 0px;
+}
+
+ion-button{
+    height: 50px;
+    font-size: 15px;
+    border-radius: 10px;
+}
+

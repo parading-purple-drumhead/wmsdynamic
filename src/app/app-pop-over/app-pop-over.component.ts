@@ -32,11 +32,12 @@ export class AppPopOverComponent implements OnInit {
     const data = {
       AccessToken
     }
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/logout',data,{responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/logout',data,{responseType: 'text'}).subscribe(
       rdata => {
         console.log(rdata);
       }
     )
+    this.storage.set('isLoggedIn',false);
     this.navCtrl.navigateRoot('/login');
     this.popover.dismiss();
   }

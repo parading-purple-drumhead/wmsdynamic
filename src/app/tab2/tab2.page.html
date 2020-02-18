@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar mode="ios" color="light">
+  <ion-toolbar mode="ios">
     <ion-title>
       Complaints
     </ion-title>
@@ -15,44 +15,40 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-grid>
   <ion-item>
-    <ion-select [(ngModel)]="building" (ngModelChange)="buildSelect($event)" name="Building" placeholder="Select Building">
+    <ion-select [(ngModel)]="building" (ngModelChange)="buildSelect($event)" name="Building"
+      placeholder="Select Building">
       <ion-select-option [value]="all" name="all">All</ion-select-option>
       <ion-select-option *ngFor="let i of buildNames" [value]="i.Building" name="any">{{i.Building}}</ion-select-option>
     </ion-select>
   </ion-item>
+  <ion-row *ngIf="empty" id="emptyPage"><p>No complaints to display</p></ion-row>
   <div *ngFor="let i of arrayData">
-  <ion-card color="danger">
-    <ion-card-content>
-      <ion-col>Building:</ion-col><ion-col>{{i.Building}}</ion-col>
-      <br>
-      <ion-col>Floor:</ion-col><ion-col>{{i.Floor}}</ion-col>
-      <br>
-      <ion-col>Room/CB:</ion-col><ion-col>{{i.location}}</ion-col>
-      <br>
-      <ion-col>Complaint:</ion-col><ion-col>{{i.Complaint}}</ion-col>
-      <br>
-      <ion-button color="danger" vertical="bottom" horizontal="end" (click)="del(i.Building,i.Floor,i.location,i.Complaint)">Delete</ion-button>
-    </ion-card-content>
-  </ion-card>
-</div>
-<ion-card color="danger">
-  <!-- <ion-card-header>
-    <ion-icon name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
-  </ion-card-header> -->
-  <ion-card-content>
-    <ion-icon name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
-    <ion-col>Building:</ion-col><ion-col>UB</ion-col>
-    <br>
-    <ion-col>Floor:</ion-col><ion-col>5</ion-col>
-    <br>
-    <ion-col>Room/CB:</ion-col><ion-col>CB</ion-col>
-    <br>
-    <ion-col>Complaint:</ion-col><ion-col>Leak</ion-col>
-    <br>
-  </ion-card-content>
-</ion-card>
-<ion-fab slot="fixed" vertical="bottom" horizontal="end">
-  <ion-fab-button (click)="addcomp()" color="success">+</ion-fab-button>
-</ion-fab>
+    <ion-card>
+      <ion-card-content>
+        <ion-icon *ngIf="showuser" name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
+        <ion-row>
+          <ion-col size="9" id="complaintContents">
+            <ion-row>
+              <ion-col size="5">Floor:</ion-col>
+              <ion-col size="7">{{i.Floor}}</ion-col>
+              <br>
+              <ion-col size="5">Room/CB:</ion-col>
+              <ion-col size="7">{{i.location}}</ion-col>
+              <br>
+              <ion-col size="5">Complaint:</ion-col>
+              <ion-col size="7">{{i.Complaint}}</ion-col>
+              <br>
+            </ion-row>
+          </ion-col>
+          <ion-col size="3" id="buildingName">{{i.Building}}</ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-grid>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="addcomp()">+</ion-fab-button>
+  </ion-fab>
 </ion-content>

@@ -30,7 +30,7 @@ export class OtppagePage implements OnInit {
       Username
     }
     console.log(data)
-    this.http.post('http://ec2-13-235-242-60.ap-south-1.compute.amazonaws.com:5000/confirmPass', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/confirmPass', data, {responseType: 'text'}).subscribe(
       rdata => {
         console.log(rdata);
         if(rdata === "True"){
