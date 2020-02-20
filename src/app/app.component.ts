@@ -13,6 +13,7 @@ const { Toast } = Plugins;
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
+
 export class AppComponent implements OnDestroy {
   backButtonSubscription;
   @ViewChildren(IonRouterOutlet) routerOutlets: QueryList<IonRouterOutlet>;
@@ -42,7 +43,10 @@ export class AppComponent implements OnDestroy {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.backButtonEvent();
-      this.splashScreen.hide();
+      setTimeout(()=>{
+        this.splashScreen.hide();
+      },0);
+      
       
     });
   }
