@@ -24,11 +24,11 @@ export class LoginPage implements OnInit{
   ngOnInit(){
     this.storage.set('inApp',false);
     this.storage.get('isLoggedIn').then((val) => {
-      if (val) {
+      console.log(val)
+      if (val===true) {
         this.router.navigate(['/tabs/tab1']);
       }
     });
-
   }
 
   goToNextPage(){
