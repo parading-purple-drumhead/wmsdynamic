@@ -19,7 +19,7 @@ export class AuthGuardService implements CanActivate {
         this.storage.get('RefreshToken').then(RefreshToken => {
           if(RefreshToken === null){
             this.storage.set('isLoggedIn',false);
-            this.router.navigate(['/']);
+            this.router.navigate(['/login']);
             window.location.reload();
             resolve(false);
           }
