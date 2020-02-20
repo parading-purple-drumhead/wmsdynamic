@@ -8,10 +8,23 @@
 
 #loginForm{
     background: #ffffff;
-    flex-grow: 1;
+    flex-grow: 0.50;
     justify-content: center;
     flex-shrink: 0;
+    border: 0px;
 }
+
+#image{
+    background: #ffffff;
+    flex-grow: 0.50;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+}
+
+
+
+
 
 ion-grid{
     background-color: #3880ff; 

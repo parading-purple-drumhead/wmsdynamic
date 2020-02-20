@@ -19,13 +19,16 @@
         <div>
           <ion-button expand="block" type="submit" class="ion-no-margin" [disabled]="form.invalid" color="primary">
             Login</ion-button>
-            <br>
+          <br>
           <ion-button expand="block" color="primary" (click)="goToNextPage()">Register</ion-button>
         </div>
         <br>
-        <div style="text-decoration:underline;color:grey;text-align: center;" (click)="forgotPassword()">Forgot Password?</div>
+        <div style="text-decoration:underline;color:grey;text-align: center;" (click)="forgotPassword()">Forgot
+          Password?</div>
       </form>
-
+    </ion-row>
+    <ion-row id="image">
+      <img src="../../assets/iotalliance.jpg" height="60" width="180">
     </ion-row>
   </ion-grid>
 </ion-content>
