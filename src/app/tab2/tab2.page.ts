@@ -42,7 +42,7 @@ export class Tab2Page implements OnInit {
     const data = {
       username
     }
-    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/showDelete', data, { responseType: 'text' }).subscribe(
+    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/showDelete', data, { responseType: 'text' }).subscribe(
       rdata => {
         console.log(rdata);
         let temp = JSON.parse(rdata);
@@ -62,7 +62,7 @@ export class Tab2Page implements OnInit {
     const data = {
       //Empty payload
     };
-    this.http.post('http://ec2-13-233-247-42.ap-south-1.compute.amazonaws.com:5000/complaint', data, { responseType: 'text' }).subscribe(
+    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/complaint', data, { responseType: 'text' }).subscribe(
       rdata => {
         console.log(rdata);
         let temp = JSON.parse(rdata);

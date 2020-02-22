@@ -22,11 +22,10 @@ export class LoginPage implements OnInit{
   username: string;
 
   ngOnInit(){
-    this.storage.set('inApp',false);
+    this.storage.set('inApp', false);
     this.storage.get('isLoggedIn').then((val) => {
-      console.log(val)
-      if (val===true) {
-        this.router.navigate(['/tabs/tab1']);
+      if (val) {
+        this.router.navigate(['/tabs']);
       }
     });
   }
