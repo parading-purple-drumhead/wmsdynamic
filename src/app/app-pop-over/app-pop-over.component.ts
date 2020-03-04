@@ -22,6 +22,11 @@ export class AppPopOverComponent implements OnInit {
     });
   }
 
+  aboutUs(){
+    this.router.navigate(['/aboutus']);
+    this.popover.dismiss();
+  }
+
   resetPassword(){
     this.router.navigate(['/resetpw']);
     this.popover.dismiss();
