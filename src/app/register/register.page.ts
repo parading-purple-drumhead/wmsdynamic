@@ -71,6 +71,8 @@ export class RegisterPage implements OnInit {
       password,
     };
     console.log(data);
+    if(confirmpassword==password)
+    {
     this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/signup', data, { responseType: 'text' }).subscribe(
       rdata => {
         console.log(rdata);
@@ -82,7 +84,12 @@ export class RegisterPage implements OnInit {
           this.error = rdata;
           alert(this.error);
         }
+      
       },
     );
+    }
+    else{
+      alert("Confirm password is not equal to password")
+    }
   }
 }
