@@ -66,13 +66,15 @@ export class OtppagePage implements OnInit {
     const code = form.value.otp;
     const Password = form.value.password;
     const Username = this.username;
+    const CPassword = form.value.confirmpassword;
     const data = {
       code,
       Password,
       Username
     }
     console.log(data)
-    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/confirmPass', data, {responseType: 'text'}).subscribe(
+    if (Password === CPassword){
+      this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/confirmPass', data, {responseType: 'text'}).subscribe(
       rdata => {
         console.log(rdata);
         if(rdata === "True"){
@@ -80,5 +82,18 @@ export class OtppagePage implements OnInit {
         }
       }
     )
+    }
+    else {
+      this.errorAlert();
+    }
   }
+
+  async errorAlert(){
+    const alert = await this.alert.create({
+      header: 'Re-type Passwords',
+      message: 'Passwords do not match',
+      buttons: ['OK']
+    });
+    await alert.present();
+}
 }

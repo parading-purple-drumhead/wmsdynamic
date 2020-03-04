@@ -16,7 +16,7 @@ export class ForgotpwPage implements OnInit {
   }
 
   forgotPassword(form){
-    const Username = form.value.username;
+    const Username = form.value.email;
     this.storage.set('username', Username);
     console.log(Username);
     const data = {
