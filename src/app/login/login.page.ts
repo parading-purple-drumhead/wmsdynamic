@@ -11,10 +11,12 @@ import { Storage } from '@ionic/storage';
 })
 export class LoginPage implements OnInit{
 
-  isLoading = false;
+  isLoading: boolean;
 
   constructor(private http: HttpClient,private router:Router, private navCtrl: NavController,
-    private storage: Storage, private alert: AlertController, private loadingCtrl: LoadingController) {}
+    private storage: Storage, private alert: AlertController, private loadingCtrl: LoadingController) {
+      this.isLoading = true;
+    }
   
   authenticated = false;
   loginForm: boolean;
@@ -26,6 +28,9 @@ export class LoginPage implements OnInit{
     this.storage.get('isLoggedIn').then((val) => {
       if (val) {
         this.router.navigate(['/tabs']);
+      }
+      else{
+        this.isLoading = false;
       }
     });
   }

@@ -1,5 +1,10 @@
 <ion-content>
-  <ion-grid>
+  <!-- <ion-grid *ngIf="isLoading">
+    <ion-row id="spinner">
+      <ion-spinner name="dots"></ion-spinner>
+    </ion-row>
+  </ion-grid> -->
+  <ion-grid *ngIf="!isLoading">
     <ion-row id="logo">
       <img src="../../assets/logo.png" height="150px" width="150px">
     </ion-row>
@@ -27,8 +32,8 @@
           Password?</div>
       </form>
     </ion-row>
-    <ion-row id="image">
+    <!-- <ion-row id="image">
       <img src="../../assets/iotalliance.jpg" height="60" width="180">
-    </ion-row>
+    </ion-row> -->
   </ion-grid>
 </ion-content>

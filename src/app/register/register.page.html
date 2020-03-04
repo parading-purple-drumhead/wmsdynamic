@@ -3,7 +3,7 @@
     <ion-buttons>
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>
+    <ion-title>Sign Up
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -50,12 +50,12 @@
                   <div class="error-message"
                     *ngIf="loginForm.get('confirmpassword').hasError(error.type) && (loginForm.get('confirmpassword').dirty || loginForm.get('confirmpassword').touched)">
                     {{ error.message }}
-                    <!-- <div *ngIf="loginForm.get('confirmpassword').error['compare']">Passwords do not match</div> -->
                   </div>
                 </ng-container>
               </div>
               <br>
-              <ion-button type="submit" [disabled]="!loginForm.valid" expand="block" (click)="register(form)">Register</ion-button>
+              <ion-button type="submit" [disabled]="!loginForm.valid" expand="block">Register
+              </ion-button>
             </ion-list>
           </form>
         </ion-card-content>

@@ -19,19 +19,23 @@ export class AuthGuardService implements CanActivate {
           if (refreshToken === null) {
             this.storage.set('isLoggedIn', false);
             this.router.navigate(['/']);
-            window.location.reload();
+            // window.location.reload();
             resolve(false);
           } else {
+            console.log(refreshToken)
             this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/refreshToken', { refreshToken }, { responseType: 'text' }).subscribe(val => {
+              console.log(val)
               if (val.indexOf('AccessToken') === -1) {
                 this.storage.set('isLoggedIn', false);
                 this.router.navigate(['/']);
-                window.location.reload();
+                console.log("No Access Token")
+                // window.location.reload();
                 resolve(false);
               }
               else {
-                const res = JSON.parse(val);
-                this.storage.set('AccessToken', res.AccessToken);
+                console.log("Access Token Available")
+                const result = JSON.parse(val);
+                this.storage.set('AccessToken', result.AccessToken);
                 this.storage.set('inApp', true);
                 resolve(true);
               }
