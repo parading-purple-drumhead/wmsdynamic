@@ -21,12 +21,12 @@
       <ion-card-title>{{this.getValue}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <canvas #barChart></canvas>
+      <canvas #barChart height="200"></canvas>
       <ion-item>
         <ion-label>From</ion-label>
         <ion-datetime min="1990" max="2099"
           [dayShortNames]="customDayShortNames"
-          displayFormat="HH:mm, DD MMM, YY"
+          displayFormat="HH:mm, DD MMM YY"
           monthShortNames="Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
           [(ngModel)] = "manfrom"></ion-datetime>
       </ion-item>
