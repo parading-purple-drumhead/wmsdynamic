@@ -95,12 +95,12 @@ export class Tab2Page implements OnInit {
         rdata => {
           console.log(rdata);
           let temp = JSON.parse(rdata);
-          if(temp.filter.Complaints === ''){
+          if(temp.Complaints.Complaints === ''){
             this.empty = 1;
           }
           else if (temp.Complaints.Complaints !== ''){
             this.empty = 0;
-            this.arrayData = temp.filter;
+            this.arrayData = temp.Complaints;
           }
         }
       );
