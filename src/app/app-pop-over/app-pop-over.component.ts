@@ -37,7 +37,7 @@ export class AppPopOverComponent implements OnInit {
     const data = {
       AccessToken
     }
-    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/logout',data,{responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:80/logout',data,{responseType: 'text'}).subscribe(
       rdata => {
         console.log(rdata);
       }

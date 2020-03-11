@@ -27,7 +27,7 @@ export class LoginPage implements OnInit{
     this.storage.set('inApp', false);
     this.storage.get('isLoggedIn').then((val) => {
       if (val) {
-        this.router.navigate(['/tabs']);
+        this.router.navigate(['/tabs']).then(() => this.isLoading = false);
       }
       else{
         this.isLoading = false;
@@ -60,7 +60,7 @@ export class LoginPage implements OnInit{
     console.log(username,password);
     const data={username,password};
     this.loadingScreen();
-    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/login',data,{responseType:'text'}).subscribe(
+    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:80/login',data,{responseType:'text'}).subscribe(
       rdata=>{
         if(rdata.indexOf('AccessToken') !== -1)
         {
@@ -72,6 +72,7 @@ export class LoginPage implements OnInit{
           this.storage.set('RefreshToken',RefreshToken);
           this.storage.set('inApp',true);
           this.storage.set('isLoggedIn',true);
+          this.isLoading = false;
           this.goToBuildPage(username);      
         }
         else{

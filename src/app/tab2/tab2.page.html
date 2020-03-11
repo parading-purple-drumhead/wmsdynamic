@@ -16,38 +16,75 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-grid>
-  <ion-item>
-    <ion-select [(ngModel)]="building" (ngModelChange)="buildSelect($event)" name="Building"
-      placeholder="Select Building">
-      <ion-select-option [value]="all" name="all">All</ion-select-option>
-      <ion-select-option *ngFor="let i of buildNames" [value]="i.Building" name="any">{{i.Building}}</ion-select-option>
-    </ion-select>
-  </ion-item>
-  <ion-row *ngIf="empty" id="emptyPage"><p>No complaints to display</p></ion-row>
-  <div *ngFor="let i of arrayData">
-    <ion-card>
-      <ion-card-content>
-        <ion-icon *ngIf="showuser" name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
-        <ion-row>
-          <ion-col size="9" id="complaintContents">
-            <ion-row>
-              <ion-col size="5">Floor:</ion-col>
-              <ion-col size="7">{{i.Floor}}</ion-col>
-              <br>
-              <ion-col size="5">Room/CB:</ion-col>
-              <ion-col size="7">{{i.location}}</ion-col>
-              <br>
-              <ion-col size="5">Complaint:</ion-col>
-              <ion-col size="7">{{i.Complaint}}</ion-col>
-              <br>
-            </ion-row>
-          </ion-col>
-          <ion-col size="3" id="buildingName">{{i.Building}}</ion-col>
-        </ion-row>
-      </ion-card-content>
-    </ion-card>
-  </div>
-</ion-grid>
+    <ion-row>
+
+      <ion-select [(ngModel)]="building" (ngModelChange)="buildSelect($event)" name="Building"
+        placeholder="Select Building">
+        <ion-select-option [value]="all" name="all">All</ion-select-option>
+        <ion-select-option *ngFor="let i of buildNames" [value]="i.Building" name="any">{{i.Building}}
+        </ion-select-option>
+      </ion-select>
+
+    </ion-row>
+    <ion-row *ngIf="empty" id="emptyPage">
+      <p>No complaints to display</p>
+    </ion-row>
+    <div *ngFor="let i of arrayData">
+      <ion-card>
+        <ion-card-content>
+          <ion-icon *ngIf="showuser" name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
+          <ion-row>
+            <ion-col size="9" id="complaintContents">
+              <ion-row>
+                <ion-col size="5">Floor:</ion-col>
+                <ion-col size="7">{{i.Floor}}</ion-col>
+                <br>
+                <ion-col size="5">Room/CB:</ion-col>
+                <ion-col size="7">{{i.location}}</ion-col>
+                <br>
+                <ion-col size="5">Complaint:</ion-col>
+                <ion-col size="7">{{i.Complaint}}</ion-col>
+                <br>
+              </ion-row>
+            </ion-col>
+            <ion-col size="3" id="buildingName">{{i.Building}}</ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <!-- <ion-list>
+      <ion-item-sliding *ngFor="let i of arrayData">
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="del(i.Building,i.Floor,i.location,i.Complaint)">
+            <ion-icon *ngIf="showuser" name="close"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+        <ion-item lines="none">
+          <ion-card>
+            <ion-card-content>
+              <ion-icon *ngIf="showuser" name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
+              <ion-row>
+                <ion-col size="9" id="complaintContents">
+                  <ion-row>
+                    <ion-col size="5">Floor:</ion-col>
+                    <ion-col size="7">{{i.Floor}}</ion-col>
+                    <br>
+                    <ion-col size="5">Room/CB:</ion-col>
+                    <ion-col size="7">{{i.location}}</ion-col>
+                    <br>
+                    <ion-col size="5">Complaint:</ion-col>
+                    <ion-col size="7">{{i.Complaint}}</ion-col>
+                    <br>
+                  </ion-row>
+                </ion-col>
+                <ion-col size="3" id="buildingName">{{i.Building}}</ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-list> -->
+  </ion-grid>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="addcomp()">+</ion-fab-button>
   </ion-fab>

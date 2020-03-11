@@ -3,6 +3,14 @@ ion-button{
     float: right;
 }
 
+ion-row{
+    border: 1px solid greenyellow;
+}
+
+ion-col{
+    border: 1px solid white;
+}
+
 ion-fab-button{
     font-size: 40px;
 }
@@ -11,6 +19,7 @@ ion-icon{
     font-size: 30px;
     float: right;
 }
+
 
 ion-card{
     background-color: #b22222;

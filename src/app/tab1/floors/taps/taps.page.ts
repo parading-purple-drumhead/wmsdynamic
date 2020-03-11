@@ -63,7 +63,7 @@ export class TapsPage implements OnInit {
       to // This adds it to the payload
      };
      console.log(data);
-    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:5000/getDetails', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:80/getDetails', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
