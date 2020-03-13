@@ -30,7 +30,7 @@
       <p>No complaints to display</p>
     </ion-row>
     <div *ngFor="let i of arrayData">
-      <ion-card>
+      <ion-card [attr.color]=" status === true ? 'warning' : ''">
         <ion-card-content>
           <ion-icon *ngIf="showuser" name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
           <ion-row>
@@ -85,6 +85,7 @@
       </ion-item-sliding>
     </ion-list> -->
   </ion-grid>
+  <ion-button (click)="test()" horizontal="start">Change Color</ion-button>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="addcomp()">+</ion-fab-button>
   </ion-fab>

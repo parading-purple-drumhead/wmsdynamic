@@ -23,7 +23,7 @@ export class AuthGuardService implements CanActivate {
             resolve(false);
           } else {
             console.log(refreshToken)
-            this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:80/refreshToken', { refreshToken }, { responseType: 'text' }).subscribe(val => {
+            this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/refreshToken', { refreshToken }, { responseType: 'text' }).subscribe(val => {
               console.log(val)
               if (val.indexOf('AccessToken') === -1) {
                 this.storage.set('isLoggedIn', false);

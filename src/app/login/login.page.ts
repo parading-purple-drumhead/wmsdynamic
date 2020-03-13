@@ -60,7 +60,7 @@ export class LoginPage implements OnInit{
     console.log(username,password);
     const data={username,password};
     this.loadingScreen();
-    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:80/login',data,{responseType:'text'}).subscribe(
+    this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/login',data,{responseType:'text'}).subscribe(
       rdata=>{
         if(rdata.indexOf('AccessToken') !== -1)
         {

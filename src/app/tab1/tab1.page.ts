@@ -30,7 +30,7 @@ export class Tab1Page implements OnInit{
     const data = {
        // This adds it to the payload
      }; 
-    this.http.post('http://ec2-3-6-36-255.ap-south-1.compute.amazonaws.com:80/buildpage', data, {responseType: 'text'}).subscribe(
+    this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/buildpage', data, {responseType: 'text'}).subscribe(
     
       rdata => {
         console.log(rdata);
