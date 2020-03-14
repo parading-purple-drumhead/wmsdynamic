@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, Data } from '@angular/router';
 import { NavController, PopoverController } from '@ionic/angular';
 import { AppPopOverComponent } from 'src/app/app-pop-over/app-pop-over.component';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -13,11 +14,12 @@ import { AppPopOverComponent } from 'src/app/app-pop-over/app-pop-over.component
 export class CompformPage implements OnInit {
 
   constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
-    private popover: PopoverController) { }
+    private popover: PopoverController,private storage: Storage) { }
 
   build: string = '';
   Floor: string = '';
 
+  username: string = '';
 
   arrayData: Array<Data>
   buildNames: Array<Data>
@@ -59,17 +61,25 @@ export class CompformPage implements OnInit {
 
   addcomp(form)
   {
+    var Username:string;
+    this.storage.get('user').then((val) => {
+      console.log(val);
+      Username = val;
+      console.log(Username);
     var Building = form.value.Building;
     var Floor = form.value.Floor;
     var location = form.value.Location;
     var Complaint = form.value.Complaint;
-    console.log(Building,Floor,location,Complaint)
+    var Status = '1';
     const data = {
       Building,
       Floor,
       location,
-      Complaint // This adds it to the payload
+      Complaint,
+      Username,
+      Status // This adds it to the payload
      }; 
+     console.log(data);
     this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/inscomplaint', data, {responseType: 'text'}).subscribe(
     
       rdata => {
@@ -77,6 +87,7 @@ export class CompformPage implements OnInit {
         }
       );
     this.router.navigateByUrl('/tabs/tab2');
+  });
   }
 
   async openPopOver(event){
