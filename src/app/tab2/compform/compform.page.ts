@@ -70,7 +70,7 @@ export class CompformPage implements OnInit {
     var Floor = form.value.Floor;
     var location = form.value.Location;
     var Complaint = form.value.Complaint;
-    var Status = '1';
+    var Status = '0';
     const data = {
       Building,
       Floor,

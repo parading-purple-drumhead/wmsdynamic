@@ -21,6 +21,7 @@
       <ion-select [(ngModel)]="building" (ngModelChange)="buildSelect($event)" name="Building"
         placeholder="Select Building">
         <ion-select-option [value]="all" name="all">All</ion-select-option>
+        <ion-select-option *ngIf="username !== 'management'" [value]="myComplaints" name="myComplaints">My Complaints</ion-select-option>
         <ion-select-option *ngFor="let i of buildNames" [value]="i.Building" name="any">{{i.Building}}
         </ion-select-option>
       </ion-select>
@@ -30,9 +31,9 @@
       <p>No complaints to display</p>
     </ion-row>
     <div *ngFor="let i of arrayData">
-      <ion-card [attr.color]=" status === true ? 'warning' : ''">
+      <ion-card [attr.color]="((username==='management'||username===i.Username)&&(i.Status === '1')) ? 'warning' : ''">
         <ion-card-content>
-          <ion-icon *ngIf="showuser" name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
+          <ion-icon *ngIf="username===i.Username" name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
           <ion-row>
             <ion-col size="9" id="complaintContents">
               <ion-row>
@@ -49,6 +50,8 @@
             </ion-col>
             <ion-col size="3" id="buildingName">{{i.Building}}</ion-col>
           </ion-row>
+          <ion-button color="primary" (click)="alertJob(i.Building,i.Floor,i.location,i.Complaint,i.Username)" *ngIf="username === 'management'" [attr.disabled]="i.Status === '1'? 'true':'false'">Confirm</ion-button>
+          <ion-button color="primary" (click)="alertAcknowledge(i.Building,i.Floor,i.location,i.Complaint)" *ngIf="username===i.Username && i.Status === '1'">Acknowledge</ion-button>
         </ion-card-content>
       </ion-card>
     </div>
@@ -85,8 +88,7 @@
       </ion-item-sliding>
     </ion-list> -->
   </ion-grid>
-  <ion-button (click)="test()" horizontal="start">Change Color</ion-button>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="addcomp()">+</ion-fab-button>
+    <ion-fab-button (click)="addcomp()" *ngIf="username !== 'management'">+</ion-fab-button>
   </ion-fab>
 </ion-content>

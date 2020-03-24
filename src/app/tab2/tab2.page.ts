@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, Data } from '@angular/router';
-import { NavController, AlertController, PopoverController } from '@ionic/angular';
+import { NavController, AlertController, PopoverController, ActionSheetController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
 
@@ -12,9 +12,11 @@ import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
 })
 export class Tab2Page implements OnInit {
 
+  toggleStatus: boolean;
+
   constructor(private http: HttpClient, private router: Router, public navCtrl: NavController, public activeRoute: ActivatedRoute,
-     private storage: Storage, private alert: AlertController, private popover: PopoverController) {
-    this.building = "All"
+    private storage: Storage, private alert: AlertController, private popover: PopoverController) {
+    this.building = "All";
   }
 
   arrayData: Array<Data>
@@ -66,10 +68,10 @@ export class Tab2Page implements OnInit {
       rdata => {
         console.log(rdata);
         let temp = JSON.parse(rdata);
-        if(temp.Complaints.Complaints === ''){
+        if (temp.Complaints.Complaints === '') {
           this.empty = 1;
         }
-        else if (temp.Complaints.Complaints !== ''){
+        else if (temp.Complaints.Complaints !== '') {
           this.empty = 0;
           this.arrayData = temp.Complaints;
         }
@@ -84,6 +86,29 @@ export class Tab2Page implements OnInit {
     if (Building === "All") {
       this.displayComplaints();
     }
+    else if (Building === "My Complaints") {
+      this.arrayData = new Array();
+      this.storage.get('user').then((val) => {
+        var Username = val;
+        const data = {
+          Username
+        }
+        this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/usernamefilter', data, { responseType: 'text' }).subscribe(
+
+          rdata => {
+            console.log(rdata);
+            let temp = JSON.parse(rdata);
+            if (temp.Complaints.Complaints === '') {
+              this.empty = 1;
+            }
+            else if (temp.Complaints.Complaints !== '') {
+              this.empty = 0;
+              this.arrayData = temp.Complaints;
+            }
+          }
+        )
+      })
+    }
     else {
       this.arrayData = new Array();
       var Building;
@@ -95,10 +120,10 @@ export class Tab2Page implements OnInit {
         rdata => {
           console.log(rdata);
           let temp = JSON.parse(rdata);
-          if(temp.Complaints.Complaints === ''){
+          if (temp.Complaints.Complaints === '') {
             this.empty = 1;
           }
-          else if (temp.Complaints.Complaints !== ''){
+          else if (temp.Complaints.Complaints !== '') {
             this.empty = 0;
             this.arrayData = temp.Complaints;
           }
@@ -128,29 +153,31 @@ export class Tab2Page implements OnInit {
     var Floor = b;
     var location = c;
     var Complaint = d;
-    const username = this.username;
-    console.log(a, b, c, d, username);
-    const comp = {
-      Building,
-      Floor,
-      location,
-      Complaint,
-      username // This adds it to the payload
-    };
-    this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/delcomplaint', comp, { responseType: 'text' }).subscribe(
+    this.storage.get('user').then((val) => {
+      var username = val;
+      const comp = {
+        Building,
+        Floor,
+        location,
+        Complaint,
+        username // This adds it to the payload
+      };
+      console.log(comp);
+      this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/delcomplaint', comp, { responseType: 'text' }).subscribe(
 
-      rdata => {
-        console.log(rdata);
-        let temp = JSON.parse(rdata);
-        this.delArray = temp.Complaints;
-        if (this.delArray[0] === '0') {
-          this.errorAlert();
+        rdata => {
+          console.log(rdata);
+          let temp = JSON.parse(rdata);
+          this.delArray = temp.Complaints;
+          if (this.delArray[0] === '0') {
+            this.errorAlert();
+          }
+          else if (this.delArray[0] === '1') {
+            this.displayComplaints();
+          }
         }
-        else if (this.delArray[0] === '1') {
-          this.displayComplaints();
-        }
-      }
-    );
+      );
+    });
   }
 
   addcomp() {
@@ -188,8 +215,93 @@ export class Tab2Page implements OnInit {
     return await popover.present();
   }
 
-  status = false
-  test(){
-    this.status = !this.status;
+  confirmJob(Building, Floor, location, Complaint, username) {
+    this.storage.get('user').then((val) => {
+      console.log(val);
+      var loggedUsername = val;
+      const data = {
+        Building,
+        Floor,
+        location,
+        Complaint,
+        username,
+        loggedUsername
+      }
+      console.log(data);
+      this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/Acknowledge', data, { responseType: 'text' }).subscribe(
+
+        rdata => {
+          console.log(rdata);
+          this.displayComplaints();
+        }
+      )
+    });
+  }
+
+  async alertJob(building, floor, location, complaint, username) {
+    const alert = await this.alert.create({
+      header: 'Confirm Job',
+      message: 'Are you sure you want to confirm the job?',
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel',
+        handler: (cancel) => {
+          console.log('Cancelled');
+        }
+      },
+      {
+        text: 'Okay',
+        handler: () => {
+          this.confirmJob(building, floor, location, complaint, username);
+        }
+      }
+      ]
+    });
+    await alert.present();
+    let result = await alert.onDidDismiss();
+  }
+
+  async alertAcknowledge(building, floor, location, complaint) {
+    const alert = await this.alert.create({
+      header: 'Confirm Acknowledgement',
+      message: 'Has the job been completed?',
+      buttons: [{
+        text: 'Reject',
+        role: 'cancel',
+        handler: (cancel) => {
+          console.log('Cancelled');
+          this.confirmAcknowledge(building, floor, location, complaint);
+        }
+      },
+      {
+        text: 'Accept',
+        handler: () => {
+          this.del(building, floor, location, complaint);
+        }
+      }
+      ]
+    });
+    await alert.present();
+    let result = await alert.onDidDismiss();
+  }
+
+  confirmAcknowledge(Building, Floor, location, Complaint) {
+    this.storage.get('user').then((val) => {
+      var username = val;
+      const data = {
+        Building,
+        Floor,
+        location,
+        Complaint,
+        username
+      }
+      console.log(data);
+      this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/AcknowledgeStudentDenied', data, { responseType: 'text' }).subscribe(
+        rdata => {
+          console.log(rdata);
+          this.displayComplaints();
+        }
+      )
+    })
   }
 }
