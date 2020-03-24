@@ -43,21 +43,9 @@ export class LoginPage implements OnInit{
     const Username=x;
     this.loadingCtrl.dismiss();
     this.fcm.getToken().then(token => {
-      console.log(token);
-      const data={token,Username};
-      console.log(data);
-      this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/firebasetableinsert',data,{responseType:'text'}).subscribe(
-        rdata=>{
-          console.log(rdata);
-        }
-      );
-    });
-    
-    
+      console.log(token);});
     this.navCtrl.navigateRoot('tabs/tab1');
-
-
-  }
+}
 
   async loadingScreen(){
     const loading = await this.loadingCtrl.create({
