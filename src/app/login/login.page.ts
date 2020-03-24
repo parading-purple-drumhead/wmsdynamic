@@ -3,6 +3,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NavController, AlertController, LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ export class LoginPage implements OnInit{
 
   isLoading: boolean;
 
-  constructor(private http: HttpClient,private router:Router, private navCtrl: NavController,
+  constructor(private fcm:FCM,private http: HttpClient,private router:Router, private navCtrl: NavController,
     private storage: Storage, private alert: AlertController, private loadingCtrl: LoadingController) {
       this.isLoading = true;
     }
@@ -22,7 +23,6 @@ export class LoginPage implements OnInit{
   loginForm: boolean;
   error: string;
   username: string;
-
   ngOnInit(){
     this.storage.set('inApp', false);
     this.storage.get('isLoggedIn').then((val) => {
@@ -40,8 +40,23 @@ export class LoginPage implements OnInit{
   }
 
   goToBuildPage(x){
+    const Username=x;
     this.loadingCtrl.dismiss();
+    this.fcm.getToken().then(token => {
+      console.log(token);
+      const data={token,Username};
+      console.log(data);
+      this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/firebasetableinsert',data,{responseType:'text'}).subscribe(
+        rdata=>{
+          console.log(rdata);
+        }
+      );
+    });
+    
+    
     this.navCtrl.navigateRoot('tabs/tab1');
+
+
   }
 
   async loadingScreen(){
