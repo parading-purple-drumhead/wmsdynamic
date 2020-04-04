@@ -70,4 +70,9 @@ export class AppPopOverComponent implements OnInit {
     let result = await alert.onDidDismiss();
   }
 
+  feedback(){
+    this.router.navigate(['/feedback']);
+    this.popover.dismiss();
+  }
+
 }

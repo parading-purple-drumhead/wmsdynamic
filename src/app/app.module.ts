@@ -15,11 +15,12 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AppPopOverComponent } from './app-pop-over/app-pop-over.component';
 import { CompareValidatorDirective } from './directives/compare-validator.directive';
 import { FCM } from '@ionic-native/fcm/ngx';
+import { CompformPage } from './tab2/compform/compform.page';
 
 
 @NgModule({
-  declarations: [AppComponent,CompareValidatorDirective],
-  entryComponents: [],
+  declarations: [AppComponent,CompareValidatorDirective,CompformPage],
+  entryComponents: [CompformPage],
   imports: [BrowserModule,
     FormsModule,
     IonicModule.forRoot(), 

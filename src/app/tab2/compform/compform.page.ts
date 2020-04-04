@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, Data } from '@angular/router';
-import { NavController, PopoverController } from '@ionic/angular';
+import { NavController, PopoverController,ModalController } from '@ionic/angular';
 import { AppPopOverComponent } from 'src/app/app-pop-over/app-pop-over.component';
 import { Storage } from '@ionic/storage';
 
@@ -14,7 +14,7 @@ import { Storage } from '@ionic/storage';
 export class CompformPage implements OnInit {
 
   constructor(private http: HttpClient,private router: Router,public navCtrl: NavController, public activeRoute: ActivatedRoute,
-    private popover: PopoverController,private storage: Storage) { }
+    private popover: PopoverController,private storage: Storage, private modal: ModalController) { }
 
   build: string = '';
   Floor: string = '';
@@ -86,8 +86,12 @@ export class CompformPage implements OnInit {
         console.log(rdata);        
         }
       );
-    this.router.navigateByUrl('/tabs/tab2');
+    this.modal.dismiss();
   });
+  }
+
+  dismissPage(){
+    this.modal.dismiss();
   }
 
   async openPopOver(event){

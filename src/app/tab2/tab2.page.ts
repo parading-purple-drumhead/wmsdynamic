@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, Data } from '@angular/router';
-import { NavController, AlertController, PopoverController, ActionSheetController } from '@ionic/angular';
+import { NavController, AlertController, PopoverController, ModalController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { AppPopOverComponent } from '../app-pop-over/app-pop-over.component';
+import { CompformPage } from './compform/compform.page';
 
 @Component({
   selector: 'app-tab2',
@@ -15,7 +16,7 @@ export class Tab2Page implements OnInit {
   toggleStatus: boolean;
 
   constructor(private http: HttpClient, private router: Router, public navCtrl: NavController, public activeRoute: ActivatedRoute,
-    private storage: Storage, private alert: AlertController, private popover: PopoverController) {
+    private storage: Storage, private alert: AlertController, private popover: PopoverController, private modal: ModalController) {
     this.building = "All";
   }
 
@@ -180,8 +181,12 @@ export class Tab2Page implements OnInit {
     });
   }
 
-  addcomp() {
-    this.router.navigate(['/compform']);
+  async addcomp() {
+    const modal = await this.modal.create({
+      component: CompformPage
+    });
+    await modal.present();
+    modal.onDidDismiss().then(res => this.displayComplaints());
   }
 
   logout() {
@@ -229,12 +234,19 @@ export class Tab2Page implements OnInit {
       }
       console.log(data);
       this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/Acknowledge', data, { responseType: 'text' }).subscribe(
-
         rdata => {
           console.log(rdata);
           this.displayComplaints();
         }
-      )
+      );
+      const notif = {
+        username
+      }
+      this.http.post('http://ec2-15-206-171-244.ap-south-1.compute.amazonaws.com:80/Notification', notif, { responseType: 'text' }).subscribe(
+        rdata => {
+          console.log(rdata);
+        }
+      );
     });
   }
 
@@ -267,7 +279,6 @@ export class Tab2Page implements OnInit {
       message: 'Has the job been completed?',
       buttons: [{
         text: 'Reject',
-        role: 'cancel',
         handler: (cancel) => {
           console.log('Cancelled');
           this.confirmAcknowledge(building, floor, location, complaint);
@@ -301,7 +312,7 @@ export class Tab2Page implements OnInit {
           console.log(rdata);
           this.displayComplaints();
         }
-      )
-    })
+      );
+    });
   }
 }

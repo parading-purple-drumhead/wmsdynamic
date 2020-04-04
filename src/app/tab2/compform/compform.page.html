@@ -1,8 +1,6 @@
 <ion-header>
   <ion-toolbar mode="ios">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
+    <ion-icon name="close" slot="start" (click)="dismissPage()"></ion-icon>
     <ion-title>Add Complaint</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="openPopOver($event)">

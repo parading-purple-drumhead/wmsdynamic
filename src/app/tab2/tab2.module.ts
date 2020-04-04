@@ -7,6 +7,7 @@ import { Tab2Page } from './tab2.page';
 import { SharedDirectivesModule } from '../directives/shared-directives.module';
 import { ComponentsModule } from '../components/components.module';
 
+
 @NgModule({
   imports: [
     IonicModule,

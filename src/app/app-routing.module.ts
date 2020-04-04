@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'forgotpw', loadChildren: './forgotpw/forgotpw.module#ForgotpwPageModule' },
   { path: 'otppage', loadChildren: './otppage/otppage.module#OtppagePageModule' },
   { path: 'resetpw', loadChildren: './resetpw/resetpw.module#ResetpwPageModule' },  { path: 'aboutus', loadChildren: './aboutus/aboutus.module#AboutusPageModule' },
+  { path: 'feedback', loadChildren: './feedback/feedback.module#FeedbackPageModule' },
 
 ];
 @NgModule({
