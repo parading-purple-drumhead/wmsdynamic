@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-feedback',
@@ -9,9 +10,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FeedbackPage implements OnInit {
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private storage: Storage) { }
+
+  email: string;
 
   ngOnInit() {
+    this.storage.get('user').then((val) => {
+      console.log(val);
+      this.email = val;
+    })
   }
 
   feedbackSubmit(form){
