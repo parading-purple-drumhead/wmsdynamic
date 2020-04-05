@@ -33,7 +33,7 @@
     <div *ngFor="let i of arrayData">
       <ion-card [attr.color]="((username==='management'||username===i.Username)&&(i.Status === '1')) ? 'warning' : ''">
         <ion-card-content>
-          <ion-icon *ngIf="username===i.Username" name="close" (click)="del(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
+          <ion-icon *ngIf="username===i.Username" name="close" (click)="delConfirm(i.Building,i.Floor,i.location,i.Complaint)"></ion-icon>
           <ion-row>
             <ion-col size="9" id="complaintContents">
               <ion-row>

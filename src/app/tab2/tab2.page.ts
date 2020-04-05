@@ -148,6 +148,29 @@ export class Tab2Page implements OnInit {
     );
   }
 
+  async delConfirm(Building,Floor,location,Complaint){
+    let alert = await this.alert.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete the complaint?',
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel',
+        // handler: (cancel) => {
+        //   console.log('Cancelled');
+        // }
+      },
+      {
+        text: 'Okay',
+        handler: () => {
+          this.del(Building,Floor,location,Complaint);
+        }
+      }
+      ]
+    });
+    await alert.present();
+    let result = await alert.onDidDismiss();
+  }
+
   del(a, b, c, d) {
     this.delArray = new Array();
     var Building = a;
