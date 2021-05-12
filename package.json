@@ -31,7 +31,7 @@
     "@ionic/cli-plugin-cordova": "^1.6.2",
     "@ionic/storage": "^2.2.0",
     "capacitor": "^0.5.5",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "cordova-android": "8.1.0",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-fcm-with-dependecy-updated": "^4.4.0",
